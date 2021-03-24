@@ -1,0 +1,7 @@
+<svg id="No_Image" data-name="No_Image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <rect x="50" y="70" width="140" height="140" rx="20" ry="20" fill="#3700B3" mask="url(#hole)"/>
+  <mask id="hole">
+      <rect x="50" y="70" width="140" height="140"  rx="20" ry="20" fill="#ffffff"/>
+      <path d="M70 190,H170,L135 100,L110 150,L92.5 130 z" stroke="red" fill="##3700B3"></path>
+  </mask>
+</svg>

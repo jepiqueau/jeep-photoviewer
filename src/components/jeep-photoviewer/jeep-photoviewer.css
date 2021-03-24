@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  --gallery-box-width: 33.33vw;
+  --gallery-template-columns: auto auto auto;
+}
+.wrapper {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: var(--gallery-template-columns);
+  grid-row-gap: 2px;
+  column-gap: 2px ;
+  background-color: #000;
+}
+.placeholder {
+  width: var(--gallery-box-width);
+  height: var(--gallery-box-width);
+  line-height: var(--gallery-box-width);
+  text-align: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #bdbbbb;
+}
+.image {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

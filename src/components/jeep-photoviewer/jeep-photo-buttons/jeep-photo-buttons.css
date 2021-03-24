@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  --photo-buttons-height: 50px;
+}
+.photobuttons-container {
+  position: absolute;
+  top: 5vh;
+  left: 0;
+  width: 100vh;
+  height: var(--photo-buttons-height);
+  background-color: rgba(0,0,0,0.0);
+  visibility: visible;
+}
+
+.share-button {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  width: var(--photo-buttons-height);
+  height: var(--photo-buttons-height);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.mode-button {
+  position: absolute;
+  top: 0;
+  left: calc(100vw / 2 - var(--photo-buttons-height) / 2);
+  width: var(--photo-buttons-height);
+  height: var(--photo-buttons-height);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.close-button {
+  position: absolute;
+  top: 0;
+  left: calc(100vw - var(--photo-buttons-height) - 50px);
+  width: var(--photo-buttons-height);
+  height: var(--photo-buttons-height);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.hidden {
+  visibility: hidden;
+}
