@@ -1,6 +1,6 @@
 import { Component, Prop, h, State, Element, Watch, Method, Host,
-         Event, EventEmitter, getAssetPath } from '@stencil/core';
-
+         Event, EventEmitter } from '@stencil/core';
+import { shareUrl, closeUrl, minimizeUrl, fullscreenUrl} from '../../../utils/svg-utils'
 @Component({
 tag: 'jeep-photo-buttons',
 styleUrl: 'jeep-photo-buttons.css',
@@ -116,10 +116,6 @@ export class JeepPhotoButtons {
   _shareEl: HTMLDivElement;
   _modeEl: HTMLDivElement;
   _closeEl: HTMLDivElement;
-  _closeUrl: string;
-  _shareUrl: string;
-  _fullscreenUrl: string;
-  _minimizeUrl: string;
   _modeUrl: string;
 
 
@@ -145,16 +141,12 @@ export class JeepPhotoButtons {
     this._element = this.el.shadowRoot;
     this.parseShare(this.share ? this.share : "visible");
     this.parseViewmode(this.viewmode ? this.viewmode : "normal");
-    this._closeUrl = getAssetPath(`./assets/close.svg`);
-    this._shareUrl = getAssetPath(`./assets/share.svg`);
-    this._fullscreenUrl = getAssetPath(`./assets/fullscreen.svg`);
-    this._minimizeUrl = getAssetPath(`./assets/minimize.svg`);
     if(this.innerViewmode === "fullscreen") {
       this.mode = "minimize";
-      this._modeUrl = this._minimizeUrl;
+      this._modeUrl = minimizeUrl;
     } else {
       this.mode = "fullscreen";
-      this._modeUrl = this._fullscreenUrl;
+      this._modeUrl = fullscreenUrl;
     }
     return;
   }
@@ -162,19 +154,18 @@ export class JeepPhotoButtons {
     this._photoButtonsEl = this._element.querySelector('.photobuttons-container');
     if(this.innerShare === "visible") {
       this._shareEl =  this._photoButtonsEl.querySelector('.share-button');
-      this._shareEl.style.setProperty("background-image",`url(${this._shareUrl})`);
+      this._shareEl.style.setProperty("background-image",`${shareUrl}`);
     }
     this._modeEl =  this._photoButtonsEl.querySelector('.mode-button');
     this._closeEl =  this._photoButtonsEl.querySelector('.close-button');
-    this._modeEl.style.setProperty("background-image",`url(${this._modeUrl})`);
-    this._closeEl.style.setProperty("background-image",`url(${this._closeUrl})`);
+    this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
+    this._closeEl.style.setProperty("background-image",`${closeUrl}`);
     return;
   }
   private _handleClick(button: string) {
     switch (button) {
       case "share" : {
-        console.log("going to emit onPhotoButtonsShare ")
-        this.onPhotoButtonsShare.emit();
+            this.onPhotoButtonsShare.emit();
         break;
       }
       case "close" : {
@@ -183,13 +174,13 @@ export class JeepPhotoButtons {
       }
       case "mode" : {
         if(this.mode === "fullscreen") {
-          this._modeUrl = this._minimizeUrl;
-          this._modeEl.style.setProperty("background-image",`url(${this._modeUrl})`);
+          this._modeUrl = minimizeUrl;
+          this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
           this.onPhotoRequestFullscreen.emit();
           this.mode = "minimize";
         } else {
-          this._modeUrl = this._fullscreenUrl;
-          this._modeEl.style.setProperty("background-image",`url(${this._modeUrl})`);
+          this._modeUrl = fullscreenUrl;
+          this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
           this.onPhotoRequestMinimize.emit();
           this.mode = "fullscreen";
         }

@@ -1,6 +1,7 @@
 import { Component, Prop, h, State, Element, Watch, Method, Host,
-         getAssetPath, Listen } from '@stencil/core';
-import {Image, ViewerOptions} from '../../interfaces/interfaces';
+         Listen } from '@stencil/core';
+import { Image, ViewerOptions } from '../../interfaces/interfaces';
+import { placeholderUrl } from '../../utils/svg-utils';
 
 @Component({
   tag: 'jeep-photoviewer',
@@ -89,7 +90,6 @@ export class JeepPhotoviewer {
   _element: any;
   _window: Window | any;
   _selPos: number;
-  placeHolderUrl: String
 
   //*******************************
   //* Component Lifecycle Methods *
@@ -108,10 +108,6 @@ export class JeepPhotoviewer {
     this._element = this.el.shadowRoot;
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
-    console.log(`this.imageList: ${JSON.stringify(this.imageList)}`)
-    console.log(`this.options: ${JSON.stringify(this.options)}`)
-    if(this.imageList != null) console.log(`imageList ${this.innerImageList}`);
-    this.placeHolderUrl = getAssetPath(`./assets/placeholder.svg`);
     this._setProperties();
     return;
   }
@@ -150,7 +146,7 @@ export class JeepPhotoviewer {
     let toRender: any[] = [];
     if(this.innerImageList != null && this.innerImageList.length > 0)
     for (var i:number = 0; i<this.innerImageList.length; i++) {
-      const placeHolderStyle = {"background-image": `url(${this.placeHolderUrl})`};
+      const placeHolderStyle = {"background-image": `${placeholderUrl}`};
       const elStyle = {"background-image": `url(${this.innerImageList[i].url})`};
       const boxId = `gallery-box-${i}`;
       toRender = [...toRender,

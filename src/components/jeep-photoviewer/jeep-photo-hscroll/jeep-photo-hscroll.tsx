@@ -85,12 +85,10 @@ export class JeepPhotoHscroll {
   }
   @Listen('jeepPhotoButtonsShare')
   async handleJeepPhotoButtonsShare() {
-    console.log(`received jeepPhotoButtonsShare index: ${this.currentIndex}`)
     this.shareShow = true;
     this._shareUrl = this.innerImageList[this.currentIndex].url;
     this._shareTitle = this.innerImageList[this.currentIndex].title;
     this._shareText = "Share API Demo";
-    console.log(`url: ${this._shareUrl} title: ${this._shareTitle}`)
   }
   @Listen('jeepPhotoShareCompleted')
   async handleJeepPhotoShareCompleted(event: CustomEvent) {
