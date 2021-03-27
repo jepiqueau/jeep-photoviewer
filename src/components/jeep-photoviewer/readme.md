@@ -68,6 +68,13 @@ All components use `Shadow DOM`
 | `options`   | --        | The photoviewer options | `ViewerOptions` | `undefined` |
 
 
+## Events
+
+| Event                   | Description                                          | Type                                 |
+| ----------------------- | ---------------------------------------------------- | ------------------------------------ |
+| `jeepPhotoViewerResult` | Emitted when an error occurs or a message to be sent | `CustomEvent<JeepPhotoViewerResult>` |
+
+
 ## Methods
 
 ### `closePhotoHScroll() => Promise<void>`

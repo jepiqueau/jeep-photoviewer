@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Image, ShareResult, ViewerOptions } from "./interfaces/interfaces";
+import { Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
 export namespace Components {
     interface JeepPhotoButtons {
         /**
@@ -179,6 +179,10 @@ declare namespace LocalJSX {
          */
         "imageList"?: Image[];
         /**
+          * Emitted when an error occurs or a message has to be sent
+         */
+        "onJeepPhotoHscrollResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
+        /**
           * The photoviewer options
          */
         "options"?: ViewerOptions;
@@ -191,7 +195,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the close button was clicked
          */
-        "onJeepPhotoShareCompleted"?: (event: CustomEvent<ShareResult>) => void;
+        "onJeepPhotoShareCompleted"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
         /**
           * The text to share
          */
@@ -224,6 +228,10 @@ declare namespace LocalJSX {
           * The Image List
          */
         "imageList"?: Image[];
+        /**
+          * Emitted when an error occurs or a message to be sent
+         */
+        "onJeepPhotoViewerResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
         /**
           * The photoviewer options
          */

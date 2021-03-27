@@ -36,6 +36,19 @@
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
+//    options.title = false;
+//    options.share = false;
     cmp.options = options
+    cmp.addEventListener('jeepPhotoViewerResult',(ev) => {
+      if(ev.detail) {
+        if(ev.detail.result) {
+          if( Object.keys(ev.detail).includes("message")) {
+            console.log(`${ev.detail.message}`);
+          }
+        } else {
+          console.log(`${ev.detail.message}`);
+        }
+      }
+    },false);
   </script>
 </html>

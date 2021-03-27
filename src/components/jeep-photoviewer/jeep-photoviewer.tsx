@@ -1,6 +1,6 @@
 import { Component, Prop, h, State, Element, Watch, Method, Host,
-         Listen } from '@stencil/core';
-import { Image, ViewerOptions } from '../../interfaces/interfaces';
+         Listen, Event, EventEmitter } from '@stencil/core';
+import { Image, ViewerOptions, JeepPhotoViewerResult } from '../../interfaces/interfaces';
 import { placeholderUrl } from '../../utils/svg-utils';
 
 @Component({
@@ -54,6 +54,16 @@ export class JeepPhotoviewer {
     this.innerOptions = newValue;
   }
 
+  //*********************
+  //* Event Definitions *
+  //*********************
+
+  /**
+   * Emitted when an error occurs or a message to be sent
+   */
+   @Event({eventName:'jeepPhotoViewerResult'}) onPhotoViewerResult!: EventEmitter<JeepPhotoViewerResult>;
+
+
   //*******************************
   //* Listen to Event Definitions *
   //*******************************
@@ -67,6 +77,12 @@ export class JeepPhotoviewer {
     await this.closePhotoHScroll();
   }
 
+  @Listen('jeepPhotoHscrollResult')
+  handleJeepPhotoHscrollResult(event: CustomEvent) {
+    if(event.detail) {
+      this.onPhotoViewerResult.emit(event.detail);
+    }
+  }
   //**********************
   //* Method Definitions *
   //**********************
@@ -144,16 +160,17 @@ export class JeepPhotoviewer {
 
   render() {
     let toRender: any[] = [];
-    if(this.innerImageList != null && this.innerImageList.length > 0)
-    for (var i:number = 0; i<this.innerImageList.length; i++) {
-      const placeHolderStyle = {"background-image": `${placeholderUrl}`};
-      const elStyle = {"background-image": `url(${this.innerImageList[i].url})`};
-      const boxId = `gallery-box-${i}`;
-      toRender = [...toRender,
-        <div class="placeholder" style={placeHolderStyle}>
-          <div id={boxId} class="image" onClick={() => this._handleClick(boxId)} style={elStyle}><img /></div>
-        </div>
-      ]
+    if(this.innerImageList != null && this.innerImageList.length > 0) {
+      for (var i:number = 0; i<this.innerImageList.length; i++) {
+        const placeHolderStyle = {"background-image": `${placeholderUrl}`};
+        const elStyle = {"background-image": `url(${this.innerImageList[i].url})`};
+        const boxId = `gallery-box-${i}`;
+        toRender = [...toRender,
+          <div class="placeholder" style={placeHolderStyle}>
+            <div id={boxId} class="image" onClick={() => this._handleClick(boxId)} style={elStyle}><img /></div>
+          </div>
+        ]
+      }
     }
     return (
       <Host>

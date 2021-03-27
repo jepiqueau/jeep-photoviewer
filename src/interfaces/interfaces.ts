@@ -62,13 +62,13 @@ export interface Rect {
    */
   height?: number;
 }
-export interface ShareResult {
+export interface JeepPhotoViewerResult {
   /**
-   * Share result returned
+   * Result returned
    */
   result?: boolean;
   /**
-   * Share message returned
+   * Result message returned
    */
   message?: string;
 }

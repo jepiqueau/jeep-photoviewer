@@ -1,6 +1,6 @@
 import { Component, Prop, h, State, Element, Watch, Method, Host,
          Event, EventEmitter } from '@stencil/core';
-import {ShareResult } from '../../../interfaces/interfaces';
+import {JeepPhotoViewerResult } from '../../../interfaces/interfaces';
 
 @Component({
 tag: 'jeep-photo-share',
@@ -72,7 +72,7 @@ export class JeepPhotoShare {
   /**
    * Emitted when the close button was clicked
    */
-   @Event({eventName:'jeepPhotoShareCompleted'}) onPhotoShareCompleted!: EventEmitter<ShareResult>;
+   @Event({eventName:'jeepPhotoShareCompleted'}) onPhotoShareCompleted!: EventEmitter<JeepPhotoViewerResult>;
 
 
   //**********************
@@ -123,7 +123,6 @@ export class JeepPhotoShare {
     this.parseUrl(this.surl? this.surl : null);
     this.parseTitle(this.stitle ? this.stitle : null);
     this.parseText(this.stext ? this.stext : null);
-    console.log(`innerUrl: ${this.innerUrl} innerTitle: ${this.innerTitle} innerText: ${this.innerText}`)
     return;
   }
   private async _setShare(): Promise<void> {

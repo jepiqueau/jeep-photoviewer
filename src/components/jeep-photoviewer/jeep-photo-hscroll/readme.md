@@ -14,6 +14,13 @@
 | `position`  | `selposition` | The selected position   | `number`        | `undefined` |
 
 
+## Events
+
+| Event                    | Description                                              | Type                                 |
+| ------------------------ | -------------------------------------------------------- | ------------------------------------ |
+| `jeepPhotoHscrollResult` | Emitted when an error occurs or a message has to be sent | `CustomEvent<JeepPhotoViewerResult>` |
+
+
 ## Methods
 
 ### `init() => Promise<void>`

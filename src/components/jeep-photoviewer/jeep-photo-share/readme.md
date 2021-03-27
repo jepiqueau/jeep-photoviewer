@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event                     | Description                               | Type                       |
-| ------------------------- | ----------------------------------------- | -------------------------- |
-| `jeepPhotoShareCompleted` | Emitted when the close button was clicked | `CustomEvent<ShareResult>` |
+| Event                     | Description                               | Type                                 |
+| ------------------------- | ----------------------------------------- | ------------------------------------ |
+| `jeepPhotoShareCompleted` | Emitted when the close button was clicked | `CustomEvent<JeepPhotoViewerResult>` |
 
 
 ## Methods

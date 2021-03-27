@@ -50,8 +50,8 @@ in the head of your index.html
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Stencil Component Starter</title>
 
-    <script type="module" src="https://unpkg.com/jeep-photoviewer/dist/jeep-photoviewer.esm.js"></script>
-    <script nomodule src="https://unpkg.com/jeep-photoviewer/dist/jeep-photoviewer.js"></script>
+    <script type="module" src="https://unpkg.com/jeep-photoviewer@0.0.2/dist/jeep-photoviewer/jeep-photoviewer.esm.js"></script>
+    <script nomodule src="https://unpkg.com/jeep-photoviewer@0.0.2/dist/jeep-photoviewer/jeep-photoviewer.js"></script>
   </head>
   <body>
     <jeep-photoviewer></jeep-photoviewer>
@@ -82,6 +82,7 @@ in the head of your index.html
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
     cmp.options = options
+    cmp.addEventListener('jeep-)
   </script>
 </html>
 
