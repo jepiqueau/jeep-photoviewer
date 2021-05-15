@@ -1,6 +1,6 @@
 {
   "name": "jeep-photoviewer",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "PhotoViewer Stencil Component",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -22,7 +22,7 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^2.4.0"
+    "@stencil/core": "^2.5.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
@@ -46,5 +46,4 @@
   "bugs": {
     "url": "https://github.com/jepiqueau/jeep-photoviewer.git/issues"
   }
-
 }
