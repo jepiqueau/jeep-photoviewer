@@ -1,6 +1,6 @@
 {
   "name": "jeep-photoviewer",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "PhotoViewer Stencil Component",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -18,11 +18,13 @@
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
+    "test-spec": "stencil test --spec",
+    "test-e2e": "stencil test --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^2.5.2"
+    "@stencil/core": "^2.6.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
