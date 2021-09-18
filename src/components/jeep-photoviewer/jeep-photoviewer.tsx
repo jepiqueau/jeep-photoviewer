@@ -131,9 +131,13 @@ export class JeepPhotoviewer {
     this._setProperties();
   }
   private _setProperties() {
-    var spanCount = this.options != null && this.options.spancount
-                                            ? this.options.spancount : 3;
-    if(this._window.innerWidth > this._window.innerHeight) spanCount += 1;
+    if(this.innerImageList.length > 1) {
+      var spanCount = this.options != null && this.options.spancount
+                                              ? this.options.spancount : 3;
+      if(this._window.innerWidth > this._window.innerHeight) spanCount += 1;
+    } else {
+      spanCount = 1;
+    }
     const boxWidth = (100 / spanCount).toFixed(4);
     var tempColumns = ``
     for(let i: number = 0; i < spanCount; i++) {
@@ -165,12 +169,22 @@ export class JeepPhotoviewer {
         const placeHolderStyle = {"background-image": `${placeholderUrl}`};
         const elStyle = {"background-image": `url(${this.innerImageList[i].url})`};
         const boxId = `gallery-box-${i}`;
-        toRender = [...toRender,
-          <div class="placeholder" style={placeHolderStyle}>
-            <div id={boxId} class="image" onClick={() => this._handleClick(boxId)} style={elStyle}><img /></div>
-          </div>
-        ]
+        if(this.innerImageList.length > 1) {
+          toRender = [...toRender,
+            <div class="placeholder" style={placeHolderStyle}>
+              <div id={boxId} class="image" onClick={() => this._handleClick(boxId)} style={elStyle}><img /></div>
+            </div>
+          ]
+        } else {
+          toRender = [...toRender,
+            <div class="placeholder" style={placeHolderStyle}>
+              <div id={boxId} class="image" style={elStyle}><img /></div>
+            </div>
+          ]
+          this.showHScroll = true;
+        }
       }
+
     }
     return (
       <Host>
