@@ -29,12 +29,19 @@ export class JeepPhotoButtons {
       reflect: true
   }) viewmode: string;
 
+  @Prop({
+    attribute: "closebutton",
+    reflect: true
+  }) closebutton: string;
+
+
   //*****************************
   //* State Definitions         *
   //*****************************
 
   @State() innerShare: string;
   @State() innerViewmode: string;
+  @State() innerCloseButton: string;
   @State() visible: boolean;
   @State() mode: string;
 
@@ -51,6 +58,11 @@ export class JeepPhotoButtons {
   @Watch('viewmode')
   parseViewmode(newValue: string) {
     this.innerViewmode = newValue;
+  }
+
+  @Watch('closebutton')
+  parseCloseButton(newValue: string) {
+    this.innerCloseButton = newValue;
   }
 
   //*********************
@@ -141,6 +153,7 @@ export class JeepPhotoButtons {
     this._element = this.el.shadowRoot;
     this.parseShare(this.share ? this.share : "visible");
     this.parseViewmode(this.viewmode ? this.viewmode : "normal");
+    this.parseCloseButton(this.closebutton ? this.closebutton: "yes");
     if(this.innerViewmode === "fullscreen") {
       this.mode = "minimize";
       this._modeUrl = minimizeUrl;
@@ -157,9 +170,11 @@ export class JeepPhotoButtons {
       this._shareEl.style.setProperty("background-image",`${shareUrl}`);
     }
     this._modeEl =  this._photoButtonsEl.querySelector('.mode-button');
-    this._closeEl =  this._photoButtonsEl.querySelector('.close-button');
     this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
-    this._closeEl.style.setProperty("background-image",`${closeUrl}`);
+    if(this.innerCloseButton === "yes"){
+      this._closeEl =  this._photoButtonsEl.querySelector('.close-button');
+      this._closeEl.style.setProperty("background-image",`${closeUrl}`);
+    }
     return;
   }
   private _handleClick(button: string) {
@@ -206,10 +221,12 @@ export class JeepPhotoButtons {
       <div class="mode-button" onClick={() => this._handleClick("mode")}>
       </div>
     ]
-    toRender = [...toRender,
-      <div class="close-button" onClick={() => this._handleClick("close")}>
-      </div>
-    ]
+    if(this.innerCloseButton === "yes") {
+      toRender = [...toRender,
+        <div class="close-button" onClick={() => this._handleClick("close")}>
+        </div>
+      ]
+    }
   return (
       <Host>
         <div class="photobuttons-container">

@@ -8,6 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
 export namespace Components {
     interface JeepPhotoButtons {
+        "closebutton": string;
         /**
           * Method initialize
          */
@@ -148,6 +149,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface JeepPhotoButtons {
+        "closebutton"?: string;
         /**
           * Emitted when the close button was clicked
          */

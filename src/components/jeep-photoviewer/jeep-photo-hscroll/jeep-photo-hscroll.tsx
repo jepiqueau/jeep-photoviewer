@@ -327,11 +327,12 @@ export class JeepPhotoHscroll {
         ]
       }
     }
+    const closeMode: string = this.innerImageList.length === 1 ? "no" : "yes";
     let toRender: any[] = [];
     if(this.buttonsVisibility) {
       const mode: string = this.isFullscreen ? "fullscreen" : "normal";
       toRender = [...toRender,
-        <jeep-photo-buttons share={this.share} viewmode={mode}></jeep-photo-buttons>
+        <jeep-photo-buttons share={this.share} viewmode={mode} closebutton={closeMode}></jeep-photo-buttons>
       ]
     }
     let toRenderShare: any[] = [];

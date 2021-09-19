@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property   | Attribute      | Description                  | Type     | Default     |
-| ---------- | -------------- | ---------------------------- | -------- | ----------- |
-| `share`    | `sharevisible` | Share button visible         | `string` | `undefined` |
-| `viewmode` | `viewmode`     | Mode "fullscreen" / "normal" | `string` | `undefined` |
+| Property      | Attribute      | Description                  | Type     | Default     |
+| ------------- | -------------- | ---------------------------- | -------- | ----------- |
+| `closebutton` | `closebutton`  |                              | `string` | `undefined` |
+| `share`       | `sharevisible` | Share button visible         | `string` | `undefined` |
+| `viewmode`    | `viewmode`     | Mode "fullscreen" / "normal" | `string` | `undefined` |
 
 
 ## Events

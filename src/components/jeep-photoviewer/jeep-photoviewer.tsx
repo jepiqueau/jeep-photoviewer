@@ -131,6 +131,8 @@ export class JeepPhotoviewer {
     this._setProperties();
   }
   private _setProperties() {
+    console.log(`jeep-phtoviewer this.innerImageList.length ${this.innerImageList.length}`);
+
     if(this.innerImageList.length > 1) {
       var spanCount = this.options != null && this.options.spancount
                                               ? this.options.spancount : 3;
