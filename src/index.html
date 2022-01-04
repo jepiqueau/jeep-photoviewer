@@ -19,6 +19,7 @@
   <script>
     var cmp = document.querySelector('jeep-photoviewer');
     cmp.imageList = [
+
       {url: "https://i.ibb.co/wBYDxLq/beach.jpg", title: "Beach Houses"},
 
       {url: "https://i.ibb.co/gM5NNJX/butterfly.jpg", title: "Butterfly"},
@@ -45,10 +46,12 @@
       if(ev.detail) {
         if(ev.detail.result) {
           if( Object.keys(ev.detail).includes("message")) {
-            console.log(`${ev.detail.message}`);
+            console.log(`in jeepPhotoViewerResult1 ${ev.detail.message}`);
+            alert(`${ev.detail.message}`);
           }
         } else {
-          console.log(`${ev.detail.message}`);
+          console.log(`in jeepPhotoViewerResult2 ${ev.detail.message}`);
+          alert(`${ev.detail.message}`);
         }
       }
     },false);

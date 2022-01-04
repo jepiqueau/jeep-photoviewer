@@ -132,7 +132,10 @@ export class JeepPhotoviewer {
   }
   private _setProperties() {
     console.log(`jeep-phtoviewer this.innerImageList.length ${this.innerImageList.length}`);
-
+    if(this.innerImageList == null || this.innerImageList.length == 0) {
+      this.onPhotoViewerResult.emit({result: false,
+        message: "You must provide an image or an image array"});
+    }
     if(this.innerImageList.length > 1) {
       var spanCount = this.options != null && this.options.spancount
                                               ? this.options.spancount : 3;
