@@ -18,7 +18,7 @@
   </style>
   <script>
     var cmp = document.querySelector('jeep-photoviewer');
-    cmp.imageList = [
+    const imageList = [
 
       {url: "https://i.ibb.co/wBYDxLq/beach.jpg", title: "Beach Houses"},
 
@@ -36,15 +36,19 @@
       {url: "https://i.ibb.co/VYYPZGk/salmon.jpg", title: "Salmon "},
 
     ];
+    cmp.imageList = imageList;
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
-//    options.title = false;
+    if(imageList.length == 1) {
+      options.title = false;
+    }
 //    options.share = false;
-    cmp.options = options
+    cmp.options = options;
     cmp.addEventListener('jeepPhotoViewerResult',(ev) => {
       if(ev.detail) {
         if(ev.detail.result) {
+          console.log(`in jeepPhotoViewerResult1 ${ev.detail.result}`);
           if( Object.keys(ev.detail).includes("message")) {
             console.log(`in jeepPhotoViewerResult1 ${ev.detail.message}`);
             alert(`${ev.detail.message}`);

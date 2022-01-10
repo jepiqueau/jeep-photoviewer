@@ -38,6 +38,14 @@ export class JeepPhotoHscroll {
     reflect: true
   }) options: ViewerOptions;
 
+  /**
+   * The photoviewer mode ('gallery':'one')
+   */
+  @Prop({
+    attribute: "pvmode",
+    reflect: true
+  }) mode: string;
+
   //*****************************
   //* State Definitions         *
   //*****************************
@@ -45,6 +53,7 @@ export class JeepPhotoHscroll {
   @State() innerImageList: Image[];
   @State() innerOptions: ViewerOptions;
   @State() innerPosition: number;
+  @State() innerMode: string;
   @State() buttonsVisibility: boolean;
   @State() isFullscreen: boolean;
   @State() photoZoom: boolean;
@@ -73,6 +82,11 @@ export class JeepPhotoHscroll {
     this.innerOptions = newValue;
   }
 
+  @Watch('mode')
+  parseMode(newValue: string) {
+    this.innerMode = newValue;
+  }
+
   //*********************
   //* Event Definitions *
   //*********************
@@ -91,8 +105,13 @@ export class JeepPhotoHscroll {
   }
   @Listen('jeepPhotoButtonsClose')
   async handleJeepPhotoButtonsClose() {
-    if(this.isFullscreen) {
+    console.log(`in close this.innerMode: ${this.innerMode}`)
+    if(this.innerMode === "gallery" && this.isFullscreen) {
       await this._fullscreenExit();
+    }
+    if(this.innerMode === "one") {
+      this.onPhotoHscrollResult.emit({result: true});
+
     }
   }
   @Listen('jeepPhotoButtonsShare')
@@ -121,6 +140,7 @@ export class JeepPhotoHscroll {
 
   @Listen('jeepPhotoRequestFullscreen')
   async handleJeepPhotoFullscreenRequest() {
+    console.log("jeepPhotoRequestFullscreen")
     await this._fullscreenRequest(document.documentElement);
   }
 
@@ -207,6 +227,7 @@ export class JeepPhotoHscroll {
     this.parsePosition(this.position ? this.position : null);
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
+    this.parseMode(this.mode ? this.mode : "one");
     this.buttonsVisibility = true;
     this.isFullscreen = false;
     this.photoZoom = false;
@@ -327,12 +348,12 @@ export class JeepPhotoHscroll {
         ]
       }
     }
-    const closeMode: string = this.innerImageList.length === 1 ? "no" : "yes";
+//    const closeMode: string = this.innerImageList.length === 1 ? "no" : "yes";
     let toRender: any[] = [];
     if(this.buttonsVisibility) {
       const mode: string = this.isFullscreen ? "fullscreen" : "normal";
       toRender = [...toRender,
-        <jeep-photo-buttons share={this.share} viewmode={mode} closebutton={closeMode}></jeep-photo-buttons>
+        <jeep-photo-buttons share={this.share} viewmode={mode} closebutton="yes"></jeep-photo-buttons>
       ]
     }
     let toRenderShare: any[] = [];

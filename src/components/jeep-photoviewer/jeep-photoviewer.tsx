@@ -39,6 +39,7 @@ export class JeepPhotoviewer {
   @State() innerImageList: Image[];
   @State() innerOptions: ViewerOptions;
   @State() showHScroll: boolean = false;
+  @State() close: boolean = false;
 
   //*****************************
   //* Watch on Property Changes *
@@ -74,7 +75,13 @@ export class JeepPhotoviewer {
 
   @Listen('jeepPhotoButtonsClose')
   async handleJeepPhotoButtonsClose() {
-    await this.closePhotoHScroll();
+    if(this._mode === "gallery") {
+      this.close = false;
+      await this.closePhotoHScroll();
+    }
+    if(this._mode === "one") {
+      this.close = true;
+    }
   }
 
   @Listen('jeepPhotoHscrollResult')
@@ -106,6 +113,7 @@ export class JeepPhotoviewer {
   _element: any;
   _window: Window | any;
   _selPos: number;
+  _mode: string;
 
   //*******************************
   //* Component Lifecycle Methods *
@@ -124,6 +132,8 @@ export class JeepPhotoviewer {
     this._element = this.el.shadowRoot;
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
+    console.log(`imageList ${JSON.stringify(this.innerImageList)}`)
+    console.log(`imageList size: ${this.innerImageList.length}`)
     this._setProperties();
     return;
   }
@@ -131,7 +141,6 @@ export class JeepPhotoviewer {
     this._setProperties();
   }
   private _setProperties() {
-    console.log(`jeep-phtoviewer this.innerImageList.length ${this.innerImageList.length}`);
     if(this.innerImageList == null || this.innerImageList.length == 0) {
       this.onPhotoViewerResult.emit({result: false,
         message: "You must provide an image or an image array"});
@@ -140,8 +149,11 @@ export class JeepPhotoviewer {
       var spanCount = this.options != null && this.options.spancount
                                               ? this.options.spancount : 3;
       if(this._window.innerWidth > this._window.innerHeight) spanCount += 1;
+      this._mode = "gallery";
     } else {
       spanCount = 1;
+      this.showHScroll = true;
+      this._mode = "one";
     }
     const boxWidth = (100 / spanCount).toFixed(4);
     var tempColumns = ``
@@ -186,24 +198,28 @@ export class JeepPhotoviewer {
               <div id={boxId} class="image" style={elStyle}><img /></div>
             </div>
           ]
-          this.showHScroll = true;
         }
       }
 
     }
     return (
       <Host>
-      <div class="photoviewer-container">
-        {this.showHScroll
+        {!this.close
         ?
-          <jeep-photo-hscroll position={this._selPos} imageList={this.innerImageList}
-            options={this.innerOptions}></jeep-photo-hscroll>
-        :
-          <div class="wrapper">
-          {toRender}
+          <div class="photoviewer-container">
+            {this.showHScroll
+            ?
+              <jeep-photo-hscroll position={this._selPos} imageList={this.innerImageList}
+                options={this.innerOptions} mode={this._mode}></jeep-photo-hscroll>
+            :
+              <div class="wrapper">
+              {toRender}
+              </div>
+            }
           </div>
+        :
+          null
         }
-      </div>
       </Host>
     )
   }

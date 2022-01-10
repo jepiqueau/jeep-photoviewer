@@ -40,6 +40,10 @@ export namespace Components {
          */
         "init": () => Promise<void>;
         /**
+          * The photoviewer mode ('gallery':'one')
+         */
+        "mode": string;
+        /**
           * The photoviewer options
          */
         "options": ViewerOptions;
@@ -180,6 +184,10 @@ declare namespace LocalJSX {
           * The Image List
          */
         "imageList"?: Image[];
+        /**
+          * The photoviewer mode ('gallery':'one')
+         */
+        "mode"?: string;
         /**
           * Emitted when an error occurs or a message has to be sent
          */
