@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property    | Attribute     | Description             | Type            | Default     |
-| ----------- | ------------- | ----------------------- | --------------- | ----------- |
-| `imageList` | --            | The Image List          | `Image[]`       | `undefined` |
-| `options`   | --            | The photoviewer options | `ViewerOptions` | `undefined` |
-| `position`  | `selposition` | The selected position   | `number`        | `undefined` |
+| Property    | Attribute     | Description                            | Type            | Default     |
+| ----------- | ------------- | -------------------------------------- | --------------- | ----------- |
+| `imageList` | --            | The Image List                         | `Image[]`       | `undefined` |
+| `mode`      | `pvmode`      | The photoviewer mode ('gallery':'one') | `string`        | `undefined` |
+| `options`   | --            | The photoviewer options                | `ViewerOptions` | `undefined` |
+| `position`  | `selposition` | The selected position                  | `number`        | `undefined` |
 
 
 ## Events
