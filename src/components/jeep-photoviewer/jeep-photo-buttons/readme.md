@@ -7,21 +7,22 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                  | Type     | Default     |
-| ------------- | -------------- | ---------------------------- | -------- | ----------- |
-| `closebutton` | `closebutton`  |                              | `string` | `undefined` |
-| `share`       | `sharevisible` | Share button visible         | `string` | `undefined` |
-| `viewmode`    | `viewmode`     | Mode "fullscreen" / "normal" | `string` | `undefined` |
+| Property        | Attribute       | Description                  | Type     | Default     |
+| --------------- | --------------- | ---------------------------- | -------- | ----------- |
+| `closebutton`   | `closebutton`   | Close button visible         | `string` | `undefined` |
+| `fromcomponent` | `fromcomponent` | From component               | `string` | `undefined` |
+| `share`         | `sharevisible`  | Share button visible         | `string` | `undefined` |
+| `viewmode`      | `viewmode`      | Mode "fullscreen" / "normal" | `string` | `undefined` |
 
 
 ## Events
 
-| Event                        | Description                                         | Type                |
-| ---------------------------- | --------------------------------------------------- | ------------------- |
-| `jeepPhotoButtonsClose`      | Emitted when the close button was clicked           | `CustomEvent<void>` |
-| `jeepPhotoButtonsShare`      | Emitted when the share button was clicked           | `CustomEvent<void>` |
-| `jeepPhotoRequestFullscreen` | Emitted when the fullscreen mode button was clicked | `CustomEvent<void>` |
-| `jeepPhotoRequestMinimize`   | Emitted when the minimize mode button was clicked   | `CustomEvent<void>` |
+| Event                        | Description                                         | Type                                  |
+| ---------------------------- | --------------------------------------------------- | ------------------------------------- |
+| `jeepPhotoButtonsClose`      | Emitted when the close button was clicked           | `CustomEvent<{ component: string; }>` |
+| `jeepPhotoButtonsShare`      | Emitted when the share button was clicked           | `CustomEvent<void>`                   |
+| `jeepPhotoRequestFullscreen` | Emitted when the fullscreen mode button was clicked | `CustomEvent<void>`                   |
+| `jeepPhotoRequestMinimize`   | Emitted when the minimize mode button was clicked   | `CustomEvent<void>`                   |
 
 
 ## Methods
@@ -62,11 +63,13 @@ Type: `Promise<void>`
 ### Used by
 
  - [jeep-photo-hscroll](../jeep-photo-hscroll)
+ - [jeep-photoviewer](..)
 
 ### Graph
 ```mermaid
 graph TD;
   jeep-photo-hscroll --> jeep-photo-buttons
+  jeep-photoviewer --> jeep-photo-buttons
   style jeep-photo-buttons fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

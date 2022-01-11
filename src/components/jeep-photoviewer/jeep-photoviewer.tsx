@@ -60,7 +60,7 @@ export class JeepPhotoviewer {
   //*********************
 
   /**
-   * Emitted when an error occurs or a message to be sent
+   * Emitted when successful or when an error occurs or a message to be sent
    */
    @Event({eventName:'jeepPhotoViewerResult'}) onPhotoViewerResult!: EventEmitter<JeepPhotoViewerResult>;
 
@@ -74,10 +74,15 @@ export class JeepPhotoviewer {
   }
 
   @Listen('jeepPhotoButtonsClose')
-  async handleJeepPhotoButtonsClose() {
+  async handleJeepPhotoButtonsClose(event: CustomEvent) {
     if(this._mode === "gallery") {
-      this.close = false;
-      await this.closePhotoHScroll();
+      if(event.detail.component === "jeep-photo-hscroll") {
+        this.close = false;
+        await this.closePhotoHScroll();
+      } else {
+        this.close = true;
+        this.onPhotoViewerResult.emit({result: true});
+      }
     }
     if(this._mode === "one") {
       this.close = true;
@@ -132,8 +137,6 @@ export class JeepPhotoviewer {
     this._element = this.el.shadowRoot;
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
-    console.log(`imageList ${JSON.stringify(this.innerImageList)}`)
-    console.log(`imageList size: ${this.innerImageList.length}`)
     this._setProperties();
     return;
   }
@@ -214,6 +217,8 @@ export class JeepPhotoviewer {
             :
               <div class="wrapper">
               {toRender}
+              <jeep-photo-buttons share="false" viewmode="normal" closebutton="yes"
+                fromcomponent="jeep-photoviewer"></jeep-photo-buttons>
               </div>
             }
           </div>

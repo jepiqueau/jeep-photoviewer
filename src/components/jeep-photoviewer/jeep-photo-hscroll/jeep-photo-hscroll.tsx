@@ -92,7 +92,7 @@ export class JeepPhotoHscroll {
   //*********************
 
   /**
-   * Emitted when an error occurs or a message has to be sent
+   * Emitted when successful or when an error occurs or a message has to be sent
    */
    @Event({eventName:'jeepPhotoHscrollResult'}) onPhotoHscrollResult!: EventEmitter<JeepPhotoViewerResult>;
 
@@ -105,11 +105,13 @@ export class JeepPhotoHscroll {
   }
   @Listen('jeepPhotoButtonsClose')
   async handleJeepPhotoButtonsClose() {
-    console.log(`in close this.innerMode: ${this.innerMode}`)
     if(this.innerMode === "gallery" && this.isFullscreen) {
       await this._fullscreenExit();
     }
     if(this.innerMode === "one") {
+      if(this.isFullscreen) {
+        await this._fullscreenExit();
+      }
       this.onPhotoHscrollResult.emit({result: true});
 
     }
@@ -140,7 +142,6 @@ export class JeepPhotoHscroll {
 
   @Listen('jeepPhotoRequestFullscreen')
   async handleJeepPhotoFullscreenRequest() {
-    console.log("jeepPhotoRequestFullscreen")
     await this._fullscreenRequest(document.documentElement);
   }
 
@@ -353,7 +354,8 @@ export class JeepPhotoHscroll {
     if(this.buttonsVisibility) {
       const mode: string = this.isFullscreen ? "fullscreen" : "normal";
       toRender = [...toRender,
-        <jeep-photo-buttons share={this.share} viewmode={mode} closebutton="yes"></jeep-photo-buttons>
+        <jeep-photo-buttons share={this.share} viewmode={mode} closebutton="yes"
+         fromcomponent="jeep-photo-hscroll"></jeep-photo-buttons>
       ]
     }
     let toRenderShare: any[] = [];

@@ -29,10 +29,21 @@ export class JeepPhotoButtons {
       reflect: true
   }) viewmode: string;
 
-  @Prop({
+  /**
+   * Close button visible
+   */
+   @Prop({
     attribute: "closebutton",
     reflect: true
   }) closebutton: string;
+
+  /**
+   * From component
+   */
+  @Prop({
+    attribute: "fromcomponent",
+    reflect: true
+  }) fromcomponent: string;
 
 
   //*****************************
@@ -42,6 +53,7 @@ export class JeepPhotoButtons {
   @State() innerShare: string;
   @State() innerViewmode: string;
   @State() innerCloseButton: string;
+  @State() innerFromComponent: string;
   @State() visible: boolean;
   @State() mode: string;
 
@@ -65,6 +77,11 @@ export class JeepPhotoButtons {
     this.innerCloseButton = newValue;
   }
 
+  @Watch('fromcomponent')
+  parseFromComponent(newValue: string) {
+    this.innerFromComponent = newValue;
+  }
+
   //*********************
   //* Event Definitions *
   //*********************
@@ -72,7 +89,7 @@ export class JeepPhotoButtons {
   /**
    * Emitted when the close button was clicked
    */
-  @Event({eventName:'jeepPhotoButtonsClose'}) onPhotoButtonsClose!: EventEmitter<void>;
+  @Event({eventName:'jeepPhotoButtonsClose'}) onPhotoButtonsClose!: EventEmitter<{component: string}>;
   /**
    * Emitted when the fullscreen mode button was clicked
    */
@@ -154,6 +171,7 @@ export class JeepPhotoButtons {
     this.parseShare(this.share ? this.share : "visible");
     this.parseViewmode(this.viewmode ? this.viewmode : "normal");
     this.parseCloseButton(this.closebutton ? this.closebutton: "yes");
+    this.parseFromComponent(this.fromcomponent ? this.fromcomponent: "jeep-photoviewer");
     if(this.innerViewmode === "fullscreen") {
       this.mode = "minimize";
       this._modeUrl = minimizeUrl;
@@ -165,12 +183,15 @@ export class JeepPhotoButtons {
   }
   private async _setPhotoButtons(): Promise<void> {
     this._photoButtonsEl = this._element.querySelector('.photobuttons-container');
-    if(this.innerShare === "visible") {
+    if(this.innerShare === "visible" &&
+          this.innerFromComponent === "jeep-photo-hscroll") {
       this._shareEl =  this._photoButtonsEl.querySelector('.share-button');
       this._shareEl.style.setProperty("background-image",`${shareUrl}`);
     }
-    this._modeEl =  this._photoButtonsEl.querySelector('.mode-button');
-    this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
+    if(this.innerFromComponent === "jeep-photo-hscroll") {
+      this._modeEl =  this._photoButtonsEl.querySelector('.mode-button');
+      this._modeEl.style.setProperty("background-image",`${this._modeUrl}`);
+    }
     if(this.innerCloseButton === "yes"){
       this._closeEl =  this._photoButtonsEl.querySelector('.close-button');
       this._closeEl.style.setProperty("background-image",`${closeUrl}`);
@@ -184,7 +205,7 @@ export class JeepPhotoButtons {
         break;
       }
       case "close" : {
-        this.onPhotoButtonsClose.emit();
+        this.onPhotoButtonsClose.emit({component: this.innerFromComponent});
         break;
       }
       case "mode" : {
@@ -211,12 +232,14 @@ export class JeepPhotoButtons {
 
   render() {
     let toRender: any[] = [];
-    if(this.innerShare === "visible") {
+    if(this.innerShare === "visible" &&
+          this.innerFromComponent === "jeep-photo-hscroll") {
       toRender = [...toRender,
         <div class="share-button" onClick={() => this._handleClick("share")}>
         </div>
       ]
     }
+    if(this.innerFromComponent === "jeep-photo-hscroll")
     toRender = [...toRender,
       <div class="mode-button" onClick={() => this._handleClick("mode")}>
       </div>

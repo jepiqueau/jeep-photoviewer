@@ -8,7 +8,14 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
 export namespace Components {
     interface JeepPhotoButtons {
+        /**
+          * Close button visible
+         */
         "closebutton": string;
+        /**
+          * From component
+         */
+        "fromcomponent": string;
         /**
           * Method initialize
          */
@@ -153,11 +160,18 @@ declare global {
 }
 declare namespace LocalJSX {
     interface JeepPhotoButtons {
+        /**
+          * Close button visible
+         */
         "closebutton"?: string;
+        /**
+          * From component
+         */
+        "fromcomponent"?: string;
         /**
           * Emitted when the close button was clicked
          */
-        "onJeepPhotoButtonsClose"?: (event: CustomEvent<void>) => void;
+        "onJeepPhotoButtonsClose"?: (event: CustomEvent<{component: string}>) => void;
         /**
           * Emitted when the share button was clicked
          */
@@ -189,7 +203,7 @@ declare namespace LocalJSX {
          */
         "mode"?: string;
         /**
-          * Emitted when an error occurs or a message has to be sent
+          * Emitted when successful or when an error occurs or a message has to be sent
          */
         "onJeepPhotoHscrollResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
         /**
@@ -239,7 +253,7 @@ declare namespace LocalJSX {
          */
         "imageList"?: Image[];
         /**
-          * Emitted when an error occurs or a message to be sent
+          * Emitted when successful or when an error occurs or a message to be sent
          */
         "onJeepPhotoViewerResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
         /**

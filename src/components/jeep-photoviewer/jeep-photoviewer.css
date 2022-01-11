@@ -11,6 +11,9 @@
   scrollbar-width: 0;
 }
 .wrapper {
+  position:absolute;
+  top:0;
+  left:0;
   display: grid;
   width: 100vw;
   grid-template-columns: var(--gallery-template-columns);
@@ -34,3 +37,5 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+/*
+*/

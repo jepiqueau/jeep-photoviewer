@@ -9,11 +9,30 @@
     <script nomodule src="/build/jeep-photoviewer.js"></script>
   </head>
   <body>
-    <jeep-photoviewer></jeep-photoviewer>
+    <div class="content">
+      <div class="textdiv">
+        <p> this is a text for testing</p>
+        <p> blablabla</p>
+      </div>
+      <jeep-photoviewer></jeep-photoviewer>
+  </div>
   </body>
   <style>
     body {
       background-color: #000;
+    }
+    .content {
+      background-color: #282c34;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: calc(10px + 2vmin);
+      color: white;
+    }
+    .textdiv {
+      top: 100px;
+      left: 20px;
     }
   </style>
   <script>

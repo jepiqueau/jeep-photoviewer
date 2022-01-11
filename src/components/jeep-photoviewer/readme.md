@@ -70,9 +70,9 @@ All components use `Shadow DOM`
 
 ## Events
 
-| Event                   | Description                                          | Type                                 |
-| ----------------------- | ---------------------------------------------------- | ------------------------------------ |
-| `jeepPhotoViewerResult` | Emitted when an error occurs or a message to be sent | `CustomEvent<JeepPhotoViewerResult>` |
+| Event                   | Description                                                             | Type                                 |
+| ----------------------- | ----------------------------------------------------------------------- | ------------------------------------ |
+| `jeepPhotoViewerResult` | Emitted when successful or when an error occurs or a message to be sent | `CustomEvent<JeepPhotoViewerResult>` |
 
 
 ## Methods
@@ -103,11 +103,13 @@ Type: `Promise<void>`
 ### Depends on
 
 - [jeep-photo-hscroll](jeep-photo-hscroll)
+- [jeep-photo-buttons](jeep-photo-buttons)
 
 ### Graph
 ```mermaid
 graph TD;
   jeep-photoviewer --> jeep-photo-hscroll
+  jeep-photoviewer --> jeep-photo-buttons
   jeep-photo-hscroll --> jeep-photo-buttons
   jeep-photo-hscroll --> jeep-photo-share
   jeep-photo-hscroll --> jeep-photo-zoom
