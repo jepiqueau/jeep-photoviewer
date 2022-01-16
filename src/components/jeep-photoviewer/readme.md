@@ -1,5 +1,5 @@
 # jeep-photoviewer
-Stencil web component using a CSS grid to display a set of images as Gallery and using CSS snap points to walk through images. A selected image can be viewed in `fullscreen` mode with `zoom in/out and pan` capabilities.
+Stencil web component using a CSS grid to display `one` image or a set of images as `gallery` or `slider` and using CSS snap points to walk through images. A selected image can be viewed in `fullscreen` mode with `zoom in/out and pan` capabilities.
 
 The Web component tag is <jeep-photoviewer> which is mainly the Photoviewer Gallery of images and uses the following embedded components:
 
@@ -7,6 +7,7 @@ The Web component tag is <jeep-photoviewer> which is mainly the Photoviewer Gall
  - <jeep-photo-buttons> Set of buttons (`Share` , `Fullscreen`, `Close`)
                         which could be `visible` or `hidden` (Single Tap).
  - <jeep-photo-zoom> Zoom In (Double Tap) / Out (Single Tap) and Pan features.
+ - <jeep-photo-share> Share image
 
 All components use `Shadow DOM`
 
@@ -51,7 +52,17 @@ All components use `Shadow DOM`
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
-    cmp.options = options
+    cmp.options = options;
+    cmp.mode = "gallery";  /* for Gallery display */
+    /* for Slider display
+    cmp.mode = "slider";
+    cmp.startFrom = 4;  
+    */
+    /* for One image display
+    cmp.mode = "one";
+    cmp.startFrom = 2;  
+    */
+
   </script>
 </html>
 
@@ -62,10 +73,12 @@ All components use `Shadow DOM`
 
 ## Properties
 
-| Property    | Attribute | Description             | Type            | Default     |
-| ----------- | --------- | ----------------------- | --------------- | ----------- |
-| `imageList` | --        | The Image List          | `Image[]`       | `undefined` |
-| `options`   | --        | The photoviewer options | `ViewerOptions` | `undefined` |
+| Property    | Attribute     | Description                                           | Type            | Default     |
+| ----------- | ------------- | ----------------------------------------------------- | --------------- | ----------- |
+| `imageList` | --            | The Image List                                        | `Image[]`       | `undefined` |
+| `mode`      | `pvmode`      | The photoviewer mode ("gallery","slider","one")       | `string`        | `undefined` |
+| `options`   | --            | The photoviewer options                               | `ViewerOptions` | `undefined` |
+| `startFrom` | `pvstartfrom` | The photoviewer image index for mode ("slider","one") | `number`        | `undefined` |
 
 
 ## Events

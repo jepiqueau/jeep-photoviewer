@@ -71,4 +71,8 @@ export interface JeepPhotoViewerResult {
    * Result message returned
    */
   message?: string;
+  /**
+   * Result Image index at closing returned
+   */
+  imageIndex?: number;
 }

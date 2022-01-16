@@ -39,7 +39,7 @@ export class JeepPhotoHscroll {
   }) options: ViewerOptions;
 
   /**
-   * The photoviewer mode ('gallery':'one')
+   * The photoviewer mode ('gallery':'one':'slider')
    */
   @Prop({
     attribute: "pvmode",
@@ -105,16 +105,11 @@ export class JeepPhotoHscroll {
   }
   @Listen('jeepPhotoButtonsClose')
   async handleJeepPhotoButtonsClose() {
-    if(this.innerMode === "gallery" && this.isFullscreen) {
-      await this._fullscreenExit();
-    }
-    if(this.innerMode === "one") {
       if(this.isFullscreen) {
         await this._fullscreenExit();
       }
-      this.onPhotoHscrollResult.emit({result: true});
-
-    }
+      this.currentIndex = this._getCurrentPhotoIndex();
+      this.onPhotoHscrollResult.emit({result: true, imageIndex: this.currentIndex});
   }
   @Listen('jeepPhotoButtonsShare')
   async handleJeepPhotoButtonsShare() {
@@ -247,7 +242,7 @@ export class JeepPhotoHscroll {
     return;
   }
   private async _setCarousel(): Promise<void> {
-    this._carouselEl = this._element.querySelector('.carousel');
+    this._carouselEl = this._element.querySelector(`.carousel`);
     await this._scrollToPosition(this.currentIndex);
     this._currentPosition = this.currentIndex * this._window.innerWidth;
     this._previousScrollWidth = this._carouselEl.scrollWidth;
@@ -323,8 +318,12 @@ export class JeepPhotoHscroll {
     return;
   }
   private _handleClick() {
-    this.currentIndex = this._getCurrentPhotoIndex();
-    this._currentPosition = this.currentIndex * this._window.innerWidth;
+    if(this.innerMode === "gallery" || this.innerMode === "slider") {
+      this.currentIndex = this._getCurrentPhotoIndex();
+      this._currentPosition = this.currentIndex * this._window.innerWidth;
+    } else {
+      this.currentIndex = this.innerPosition;
+    }
     this.buttonsVisibility = !this.buttonsVisibility;
     // launch the zoom in out
     this.photoZoom = true;
@@ -338,13 +337,25 @@ export class JeepPhotoHscroll {
     let toRenderImg: any[] = [];
     if(this.innerImageList != null && this.innerImageList.length > 0) {
       const classTitle = this.titleShow ? "carousel-title" : "carousel-title hidden";
-      for (var i:number = 0; i<this.innerImageList.length; i++) {
+      if(this.innerMode === "gallery" || this.innerMode === "slider") {
+        for (var i:number = 0; i<this.innerImageList.length; i++) {
+          toRenderImg = [...toRenderImg,
+            <div class="carousel-item" onClick={() => this._handleClick()}>
+              <img src={this.innerImageList[i].url}
+                  alt={this.innerImageList[i].title}
+                  class="carousel-image"></img>
+                  <p class={classTitle}>{this.innerImageList[i].title}</p>
+            </div>
+          ]
+        }
+      }
+      if(this.innerMode === "one") {
         toRenderImg = [...toRenderImg,
           <div class="carousel-item" onClick={() => this._handleClick()}>
-            <img src={this.innerImageList[i].url}
-                 alt={this.innerImageList[i].title}
-                 class="carousel-image"></img>
-                 <p class={classTitle}>{this.innerImageList[i].title}</p>
+            <img src={this.innerImageList[this.innerPosition].url}
+                alt={this.innerImageList[this.innerPosition].title}
+                class="carousel-image"></img>
+                <p class={classTitle}>{this.innerImageList[this.innerPosition].title}</p>
           </div>
         ]
       }

@@ -32,12 +32,30 @@ export class JeepPhotoviewer {
     reflect: true
   }) options: ViewerOptions;
 
+  /**
+   * The photoviewer mode ("gallery","slider","one")
+   */
+  @Prop({
+    attribute: "pvmode",
+    reflect: true
+  }) mode: string;
+
+  /**
+   * The photoviewer image index for mode ("slider","one")
+   */
+  @Prop({
+    attribute: "pvstartfrom",
+    reflect: true
+  }) startFrom: number;
+
   //*****************************
   //* State Definitions         *
   //*****************************
 
   @State() innerImageList: Image[];
   @State() innerOptions: ViewerOptions;
+  @State() innerMode: string;
+  @State() innerStartFrom: number;
   @State() showHScroll: boolean = false;
   @State() close: boolean = false;
 
@@ -53,6 +71,18 @@ export class JeepPhotoviewer {
   @Watch('options')
   parseOptions(newValue: ViewerOptions) {
     this.innerOptions = newValue;
+  }
+
+  @Watch('mode')
+  parseMode(newValue: string) {
+    const expMode: string[] = ["one","gallery","slider"]
+    const val: string = expMode.includes(newValue) ? newValue : "one";
+    this.innerMode = val;
+  }
+  @Watch('startFrom')
+  parseStartFrom(newValue: number) {
+    const val = newValue < 0 || newValue > this.innerImageList.length ? 0 : newValue;
+    this.innerStartFrom = val;
   }
 
   //*********************
@@ -75,7 +105,7 @@ export class JeepPhotoviewer {
 
   @Listen('jeepPhotoButtonsClose')
   async handleJeepPhotoButtonsClose(event: CustomEvent) {
-    if(this._mode === "gallery") {
+    if(this.innerMode === "gallery") {
       if(event.detail.component === "jeep-photo-hscroll") {
         this.close = false;
         await this.closePhotoHScroll();
@@ -84,7 +114,7 @@ export class JeepPhotoviewer {
         this.onPhotoViewerResult.emit({result: true});
       }
     }
-    if(this._mode === "one") {
+    if(this.innerMode === "one" || this.innerMode === "slider") {
       this.close = true;
     }
   }
@@ -118,7 +148,6 @@ export class JeepPhotoviewer {
   _element: any;
   _window: Window | any;
   _selPos: number;
-  _mode: string;
 
   //*******************************
   //* Component Lifecycle Methods *
@@ -137,6 +166,8 @@ export class JeepPhotoviewer {
     this._element = this.el.shadowRoot;
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
+    this.parseMode(this.mode ? this.mode : "one");
+    this.parseStartFrom(this.startFrom ? this.startFrom : 0);
     this._setProperties();
     return;
   }
@@ -148,17 +179,23 @@ export class JeepPhotoviewer {
       this.onPhotoViewerResult.emit({result: false,
         message: "You must provide an image or an image array"});
     }
-    if(this.innerImageList.length > 1) {
+    if(this.innerMode === "gallery") {
       var spanCount = this.options != null && this.options.spancount
                                               ? this.options.spancount : 3;
       if(this._window.innerWidth > this._window.innerHeight) spanCount += 1;
-      this._mode = "gallery";
-    } else {
+    } else if(this.innerMode === "slider") {
       spanCount = 1;
+      this._selPos = this.innerStartFrom;
       this.showHScroll = true;
-      this._mode = "one";
+    } else if(this.innerMode === "one") {
+      spanCount = 1;
+      this._selPos = this.innerStartFrom;
+      this.showHScroll = true;
+    } else {
+      this.onPhotoViewerResult.emit({result: false,
+        message: "mode must be in ['one', 'gallery', 'slider']"});
     }
-    const boxWidth = (100 / spanCount).toFixed(4);
+    const boxWidth: string = (100 / spanCount).toFixed(4);
     var tempColumns = ``
     for(let i: number = 0; i < spanCount; i++) {
       tempColumns += `auto `;
@@ -184,12 +221,13 @@ export class JeepPhotoviewer {
 
   render() {
     let toRender: any[] = [];
+
     if(this.innerImageList != null && this.innerImageList.length > 0) {
       for (var i:number = 0; i<this.innerImageList.length; i++) {
         const placeHolderStyle = {"background-image": `${placeholderUrl}`};
         const elStyle = {"background-image": `url(${this.innerImageList[i].url})`};
         const boxId = `gallery-box-${i}`;
-        if(this.innerImageList.length > 1) {
+        if(this.innerMode === "gallery") {
           toRender = [...toRender,
             <div class="placeholder" style={placeHolderStyle}>
               <div id={boxId} class="image" onClick={() => this._handleClick(boxId)} style={elStyle}><img /></div>
@@ -203,7 +241,6 @@ export class JeepPhotoviewer {
           ]
         }
       }
-
     }
     return (
       <Host>
@@ -213,7 +250,7 @@ export class JeepPhotoviewer {
             {this.showHScroll
             ?
               <jeep-photo-hscroll position={this._selPos} imageList={this.innerImageList}
-                options={this.innerOptions} mode={this._mode}></jeep-photo-hscroll>
+                options={this.innerOptions} mode={this.innerMode}></jeep-photo-hscroll>
             :
               <div class="wrapper">
               {toRender}

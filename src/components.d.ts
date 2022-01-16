@@ -47,7 +47,7 @@ export namespace Components {
          */
         "init": () => Promise<void>;
         /**
-          * The photoviewer mode ('gallery':'one')
+          * The photoviewer mode ('gallery':'one':'slider')
          */
         "mode": string;
         /**
@@ -114,9 +114,17 @@ export namespace Components {
          */
         "init": () => Promise<void>;
         /**
+          * The photoviewer mode ("gallery","slider","one")
+         */
+        "mode": string;
+        /**
           * The photoviewer options
          */
         "options": ViewerOptions;
+        /**
+          * The photoviewer image index for mode ("slider","one")
+         */
+        "startFrom": number;
     }
 }
 declare global {
@@ -199,7 +207,7 @@ declare namespace LocalJSX {
          */
         "imageList"?: Image[];
         /**
-          * The photoviewer mode ('gallery':'one')
+          * The photoviewer mode ('gallery':'one':'slider')
          */
         "mode"?: string;
         /**
@@ -253,6 +261,10 @@ declare namespace LocalJSX {
          */
         "imageList"?: Image[];
         /**
+          * The photoviewer mode ("gallery","slider","one")
+         */
+        "mode"?: string;
+        /**
           * Emitted when successful or when an error occurs or a message to be sent
          */
         "onJeepPhotoViewerResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
@@ -260,6 +272,10 @@ declare namespace LocalJSX {
           * The photoviewer options
          */
         "options"?: ViewerOptions;
+        /**
+          * The photoviewer image index for mode ("slider","one")
+         */
+        "startFrom"?: number;
     }
     interface IntrinsicElements {
         "jeep-photo-buttons": JeepPhotoButtons;
