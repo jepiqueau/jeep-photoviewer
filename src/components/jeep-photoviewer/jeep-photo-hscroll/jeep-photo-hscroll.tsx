@@ -220,10 +220,10 @@ export class JeepPhotoHscroll {
 
   private async _init(): Promise<void> {
     this._element = this.el.shadowRoot;
-    this.parsePosition(this.position ? this.position : null);
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
     this.parseMode(this.mode ? this.mode : "one");
+    this.parsePosition(this.position >=0 ? this.position : 0);
     this.buttonsVisibility = true;
     this.isFullscreen = false;
     this.photoZoom = false;
@@ -350,6 +350,8 @@ export class JeepPhotoHscroll {
         }
       }
       if(this.innerMode === "one") {
+        console.log(`imageList ${this.innerImageList}`)
+        console.log(`innerPosition ${this.innerPosition}`)
         toRenderImg = [...toRenderImg,
           <div class="carousel-item" onClick={() => this._handleClick()}>
             <img src={this.innerImageList[this.innerPosition].url}
