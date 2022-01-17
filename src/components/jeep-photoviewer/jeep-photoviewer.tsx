@@ -190,7 +190,6 @@ export class JeepPhotoviewer {
     } else if(this.innerMode === "one") {
       spanCount = 1;
       this._selPos = this.innerImageList.length > 1 ? this.innerStartFrom : 0;
-      console.log(`in _setProperties ${this._selPos}`)
       this.showHScroll = true;
     } else {
       this.onPhotoViewerResult.emit({result: false,
@@ -222,7 +221,6 @@ export class JeepPhotoviewer {
 
   render() {
     let toRender: any[] = [];
-    console.log(`in render ${this._selPos}`)
 
     if(this.innerImageList != null && this.innerImageList.length > 0) {
       for (var i:number = 0; i<this.innerImageList.length; i++) {

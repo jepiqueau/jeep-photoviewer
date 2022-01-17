@@ -108,8 +108,10 @@ export class JeepPhotoHscroll {
       if(this.isFullscreen) {
         await this._fullscreenExit();
       }
-      this.currentIndex = this._getCurrentPhotoIndex();
-      this.onPhotoHscrollResult.emit({result: true, imageIndex: this.currentIndex});
+      if(this.innerMode !== 'gallery') {
+        this.currentIndex = this._getCurrentPhotoIndex();
+        this.onPhotoHscrollResult.emit({result: true, imageIndex: this.currentIndex});
+      }
   }
   @Listen('jeepPhotoButtonsShare')
   async handleJeepPhotoButtonsShare() {
@@ -350,8 +352,6 @@ export class JeepPhotoHscroll {
         }
       }
       if(this.innerMode === "one") {
-        console.log(`imageList ${this.innerImageList}`)
-        console.log(`innerPosition ${this.innerPosition}`)
         toRenderImg = [...toRenderImg,
           <div class="carousel-item" onClick={() => this._handleClick()}>
             <img src={this.innerImageList[this.innerPosition].url}
