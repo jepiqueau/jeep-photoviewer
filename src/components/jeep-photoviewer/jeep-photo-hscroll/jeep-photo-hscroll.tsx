@@ -109,7 +109,7 @@ export class JeepPhotoHscroll {
         await this._fullscreenExit();
       }
       if(this.innerMode !== 'gallery') {
-        this.currentIndex = this._getCurrentPhotoIndex();
+        this.currentIndex = this.innerMode === 'slider' ? this._getCurrentPhotoIndex() : this.innerPosition;
         this.onPhotoHscrollResult.emit({result: true, imageIndex: this.currentIndex});
       }
   }
