@@ -2,6 +2,7 @@
   display: block;
   --gallery-box-width: 33.33vw;
   --gallery-template-columns: auto auto auto;
+  --photoviewer-background-color: black;
 }
 .photoviewer-container::-webkit-scrollbar {
   display: none;
@@ -19,7 +20,7 @@
   grid-template-columns: var(--gallery-template-columns);
   grid-row-gap: 2px;
   column-gap: 2px ;
-  background-color: #000;
+  background-color: var(--photoviewer-background-color);
 }
 .placeholder {
   width: var(--gallery-box-width);

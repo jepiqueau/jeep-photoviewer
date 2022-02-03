@@ -148,6 +148,8 @@ export class JeepPhotoviewer {
   _element: any;
   _window: Window | any;
   _selPos: number;
+  _backRange: string[] = ["white","ivory","lightgrey","darkgrey",
+                         "dimgrey", "grey", "black"];
 
   //*******************************
   //* Component Lifecycle Methods *
@@ -201,8 +203,13 @@ export class JeepPhotoviewer {
       tempColumns += `auto `;
     }
     tempColumns = tempColumns.substring(0,tempColumns.length - 1);
+    var backColor = this.options != null &&
+                this._backRange.includes(this.options.backgroundcolor)
+                ? this.options.backgroundcolor : "black";
+
     this.el.style.setProperty('--gallery-box-width',`${boxWidth}vw`);
     this.el.style.setProperty('--gallery-template-columns',`${tempColumns}`);
+    this.el.style.setProperty('--photoviewer-background-color',`${backColor}`);
 
   }
 

@@ -52,6 +52,7 @@ All components use `Shadow DOM`
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
+    options.backgroundcolor = 'ivory';
     cmp.options = options;
     cmp.mode = "gallery";  /* for Gallery display */
     /* for Slider display

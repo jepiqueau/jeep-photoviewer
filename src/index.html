@@ -55,7 +55,7 @@
 
     ];
     cmp.imageList = imageList;
-    cmp.mode = "one";
+    cmp.mode = "slider";
     cmp.startFrom = 2;
     const options = {};
     options.maxzoomscale = 3;
@@ -63,6 +63,7 @@
     if(imageList.length == 1) {
       options.title = false;
     }
+    options.backgroundcolor = 'ivory';
 //    options.share = false;
     cmp.options = options;
     cmp.addEventListener('jeepPhotoViewerResult',(ev) => {

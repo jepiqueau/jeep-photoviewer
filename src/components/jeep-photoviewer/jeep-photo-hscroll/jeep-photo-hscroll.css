@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --hscroll-background-color: #000;
+  --hscroll-background-color: var(--photoviewer-background-color);
 }
 .hscroll-container {
   position: absolute;

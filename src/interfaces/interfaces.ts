@@ -33,6 +33,12 @@ export interface ViewerOptions {
    * Compression Quality for Sharing Image range [0-1] (default 0.8)
    */
   compressionquality?: number;
+  /**
+   * Background Color
+   * ["white", "ivory", "lightgrey", "darkgrey", "grey", "dimgrey", "black"]
+   * (default "black")
+   */
+   backgroundcolor?: string;
 }
 export interface Point {
   /**

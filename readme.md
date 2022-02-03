@@ -14,6 +14,11 @@ The Web component tag is <jeep-photoviewer> is the main component. It is using t
                        
 All components use `Shadow DOM`
 
+Since 1.1.0, the background color can be specified in the options parameter and must be in the range 
+
+`["white","ivory","lightgrey","darkgrey","dimgrey", "grey", "black"]`
+
+
 ## Getting Started
 
 ### Script tag
@@ -142,6 +147,7 @@ in the head of your index.html
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
+    options.backgroundcolor = 'lightgrey';
     cmp.options = options;
     cmp.mode = "one";
     cmp.startFrom = 3;
@@ -203,6 +209,7 @@ in the head of your index.html
     const options = {};
     options.maxzoomscale = 3;
     options.compressionquality = 0.6;
+    options.backgroundcolor = 'ivory';
     cmp.options = options;
     cmp.mode = "slider";
     cmp.startFrom = 5;
