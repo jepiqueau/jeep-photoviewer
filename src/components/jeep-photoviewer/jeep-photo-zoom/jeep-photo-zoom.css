@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --zoom-background-color: #000;
+  --zoom-background-color: var(--photoviewer-background-color);
   --zoom-width: 100vw;
   --zoom-height: 100vh;
   --zoom-offset-x: 0px;

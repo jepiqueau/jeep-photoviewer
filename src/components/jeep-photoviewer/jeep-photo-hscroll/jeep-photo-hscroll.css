@@ -1,6 +1,7 @@
 :host {
   display: block;
   --hscroll-background-color: var(--photoviewer-background-color);
+  --hscroll-title-color: #d3d3d3;
 }
 .hscroll-container {
   position: absolute;
@@ -56,9 +57,9 @@
   position: absolute;
   bottom: 0;
   visibility: visible;
-  width: 100%;
-  height: 40px;
-  color: #fff;
+  width: 100vw;
+  height: 3vh;
+  color: var(--hscroll-title-color);
   font: 2.5vh Arial, sans-serif;
 
 }
