@@ -169,7 +169,13 @@ export class JeepPhotoviewer {
     this.parseImageList(this.imageList ? this.imageList : null);
     this.parseOptions(this.options ? this.options : null);
     this.parseMode(this.mode ? this.mode : "one");
-    this.parseStartFrom(this.startFrom ? this.startFrom : 0);
+
+    let stFrom = 0;
+    if (this.startFrom != null) {
+      stFrom = this.startFrom > this.imageList.length -1 ? this.imageList.length -1
+                                                         : this.startFrom;
+    }
+    this.parseStartFrom(stFrom);
     this._setProperties();
     return;
   }
@@ -181,6 +187,12 @@ export class JeepPhotoviewer {
       this.onPhotoViewerResult.emit({result: false,
         message: "You must provide an image or an image array"});
     }
+    if((this.innerMode === "gallery" || this.innerMode === "slider")
+                  && this.innerImageList.length <= 1) {
+      this.onPhotoViewerResult.emit({result: false,
+        message: `Image array should be greater than one for mode : ${this.innerMode}`});
+    }
+
     if(this.innerMode === "gallery") {
       var spanCount = this.options != null && this.options.spancount
                                               ? this.options.spancount : 3;

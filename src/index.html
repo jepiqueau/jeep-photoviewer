@@ -59,6 +59,7 @@
       {url: "https://i.ibb.co/JKB0KPk/pizza.jpg", title: "Pizza Time"},
       {url: "https://i.ibb.co/VYYPZGk/salmon.jpg", title: "Salmon "},
       base64Images[0],
+
     ];
     cmp.imageList = imageList;
     cmp.mode = "gallery";
@@ -73,6 +74,7 @@
 //    options.share = false;
     cmp.options = options;
     cmp.addEventListener('jeepPhotoViewerResult',(ev) => {
+      let content = document.querySelector(".content");
       if(ev.detail) {
         if(ev.detail.result) {
           console.log(`in jeepPhotoViewerResult result ${ev.detail.result}`);
@@ -82,10 +84,12 @@
           if( Object.keys(ev.detail).includes("message")) {
             console.log(`in jeepPhotoViewerResult1 message ${ev.detail.message}`);
             alert(`${ev.detail.message}`);
+            content.removeChild(cmp);
           }
         } else {
           console.log(`in jeepPhotoViewerResult2 message ${ev.detail.message}`);
           alert(`${ev.detail.message}`);
+          content.removeChild(cmp);
         }
       }
     },false);
