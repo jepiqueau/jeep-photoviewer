@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
+import { IJeepSwipeEvent, Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
 export namespace Components {
     interface JeepPhotoButtons {
         /**
@@ -85,6 +85,29 @@ export namespace Components {
          */
         "surl": string;
     }
+    interface JeepPhotoSwipe {
+        "handleTouchEnd": (e: TouchEvent) => Promise<void>;
+        /**
+          * Set the Photo.
+         */
+        "handleTouchStart": (e: TouchEvent) => Promise<void>;
+        /**
+          * Method initialize
+         */
+        "init": () => Promise<void>;
+        /**
+          * The swipe threshold in x direction
+         */
+        "thresholdX": number;
+        /**
+          * The swipe threshold in y direction
+         */
+        "thresholdY": number;
+        /**
+          * The swipe timeThreshold
+         */
+        "timeThreshold": number;
+    }
     interface JeepPhotoZoom {
         /**
           * Method initialize
@@ -127,6 +150,30 @@ export namespace Components {
         "startFrom": number;
     }
 }
+export interface JeepPhotoButtonsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoButtonsElement;
+}
+export interface JeepPhotoHscrollCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoHscrollElement;
+}
+export interface JeepPhotoShareCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoShareElement;
+}
+export interface JeepPhotoSwipeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoSwipeElement;
+}
+export interface JeepPhotoZoomCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoZoomElement;
+}
+export interface JeepPhotoviewerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLJeepPhotoviewerElement;
+}
 declare global {
     interface HTMLJeepPhotoButtonsElement extends Components.JeepPhotoButtons, HTMLStencilElement {
     }
@@ -146,6 +193,12 @@ declare global {
         prototype: HTMLJeepPhotoShareElement;
         new (): HTMLJeepPhotoShareElement;
     };
+    interface HTMLJeepPhotoSwipeElement extends Components.JeepPhotoSwipe, HTMLStencilElement {
+    }
+    var HTMLJeepPhotoSwipeElement: {
+        prototype: HTMLJeepPhotoSwipeElement;
+        new (): HTMLJeepPhotoSwipeElement;
+    };
     interface HTMLJeepPhotoZoomElement extends Components.JeepPhotoZoom, HTMLStencilElement {
     }
     var HTMLJeepPhotoZoomElement: {
@@ -162,6 +215,7 @@ declare global {
         "jeep-photo-buttons": HTMLJeepPhotoButtonsElement;
         "jeep-photo-hscroll": HTMLJeepPhotoHscrollElement;
         "jeep-photo-share": HTMLJeepPhotoShareElement;
+        "jeep-photo-swipe": HTMLJeepPhotoSwipeElement;
         "jeep-photo-zoom": HTMLJeepPhotoZoomElement;
         "jeep-photoviewer": HTMLJeepPhotoviewerElement;
     }
@@ -179,19 +233,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the close button was clicked
          */
-        "onJeepPhotoButtonsClose"?: (event: CustomEvent<{component: string}>) => void;
+        "onJeepPhotoButtonsClose"?: (event: JeepPhotoButtonsCustomEvent<{component: string}>) => void;
         /**
           * Emitted when the share button was clicked
          */
-        "onJeepPhotoButtonsShare"?: (event: CustomEvent<void>) => void;
+        "onJeepPhotoButtonsShare"?: (event: JeepPhotoButtonsCustomEvent<void>) => void;
         /**
           * Emitted when the fullscreen mode button was clicked
          */
-        "onJeepPhotoRequestFullscreen"?: (event: CustomEvent<void>) => void;
+        "onJeepPhotoRequestFullscreen"?: (event: JeepPhotoButtonsCustomEvent<void>) => void;
         /**
           * Emitted when the minimize mode button was clicked
          */
-        "onJeepPhotoRequestMinimize"?: (event: CustomEvent<void>) => void;
+        "onJeepPhotoRequestMinimize"?: (event: JeepPhotoButtonsCustomEvent<void>) => void;
         /**
           * Share button visible
          */
@@ -213,7 +267,8 @@ declare namespace LocalJSX {
         /**
           * Emitted when successful or when an error occurs or a message has to be sent
          */
-        "onJeepPhotoHscrollResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
+        "onJeepPhotoHscrollResult"?: (event: JeepPhotoHscrollCustomEvent<JeepPhotoViewerResult>) => void;
+        "onJeepPhotoZoom"?: (event: JeepPhotoHscrollCustomEvent<{isZoom: boolean}>) => void;
         /**
           * The photoviewer options
          */
@@ -227,7 +282,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the close button was clicked
          */
-        "onJeepPhotoShareCompleted"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
+        "onJeepPhotoShareCompleted"?: (event: JeepPhotoShareCustomEvent<JeepPhotoViewerResult>) => void;
         /**
           * The text to share
          */
@@ -241,6 +296,24 @@ declare namespace LocalJSX {
          */
         "surl"?: string;
     }
+    interface JeepPhotoSwipe {
+        /**
+          * Emitted when the user is making a swipe gesture
+         */
+        "onJeepSwipeEvent"?: (event: JeepPhotoSwipeCustomEvent<IJeepSwipeEvent>) => void;
+        /**
+          * The swipe threshold in x direction
+         */
+        "thresholdX"?: number;
+        /**
+          * The swipe threshold in y direction
+         */
+        "thresholdY"?: number;
+        /**
+          * The swipe timeThreshold
+         */
+        "timeThreshold"?: number;
+    }
     interface JeepPhotoZoom {
         /**
           * The maximum zoom scale
@@ -249,7 +322,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the close button was clicked
          */
-        "onJeepPhotoZoomOneTap"?: (event: CustomEvent<void>) => void;
+        "onJeepPhotoZoomOneTap"?: (event: JeepPhotoZoomCustomEvent<void>) => void;
         /**
           * The photo url
          */
@@ -267,7 +340,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when successful or when an error occurs or a message to be sent
          */
-        "onJeepPhotoViewerResult"?: (event: CustomEvent<JeepPhotoViewerResult>) => void;
+        "onJeepPhotoViewerResult"?: (event: JeepPhotoviewerCustomEvent<JeepPhotoViewerResult>) => void;
         /**
           * The photoviewer options
          */
@@ -281,6 +354,7 @@ declare namespace LocalJSX {
         "jeep-photo-buttons": JeepPhotoButtons;
         "jeep-photo-hscroll": JeepPhotoHscroll;
         "jeep-photo-share": JeepPhotoShare;
+        "jeep-photo-swipe": JeepPhotoSwipe;
         "jeep-photo-zoom": JeepPhotoZoom;
         "jeep-photoviewer": JeepPhotoviewer;
     }
@@ -292,6 +366,7 @@ declare module "@stencil/core" {
             "jeep-photo-buttons": LocalJSX.JeepPhotoButtons & JSXBase.HTMLAttributes<HTMLJeepPhotoButtonsElement>;
             "jeep-photo-hscroll": LocalJSX.JeepPhotoHscroll & JSXBase.HTMLAttributes<HTMLJeepPhotoHscrollElement>;
             "jeep-photo-share": LocalJSX.JeepPhotoShare & JSXBase.HTMLAttributes<HTMLJeepPhotoShareElement>;
+            "jeep-photo-swipe": LocalJSX.JeepPhotoSwipe & JSXBase.HTMLAttributes<HTMLJeepPhotoSwipeElement>;
             "jeep-photo-zoom": LocalJSX.JeepPhotoZoom & JSXBase.HTMLAttributes<HTMLJeepPhotoZoomElement>;
             "jeep-photoviewer": LocalJSX.JeepPhotoviewer & JSXBase.HTMLAttributes<HTMLJeepPhotoviewerElement>;
         }

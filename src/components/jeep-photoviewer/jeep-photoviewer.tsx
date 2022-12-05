@@ -59,6 +59,7 @@ export class JeepPhotoviewer {
   @State() showHScroll: boolean = false;
   @State() close: boolean = false;
 
+
   //*****************************
   //* Watch on Property Changes *
   //*****************************
@@ -125,6 +126,38 @@ export class JeepPhotoviewer {
       this.onPhotoViewerResult.emit(event.detail);
     }
   }
+  @Listen('jeepPhotoZoom')
+  handleJeepPhotoZoom(event: CustomEvent) {
+    if(event.detail) {
+      if (event.detail.isZoom) {
+        this._isScale = true;
+      } else {
+        this._isScale = false;
+      }
+    }
+  }
+
+
+  @Listen('jeepSwipeEvent')
+  async handleJeepSwipeEvent(event: CustomEvent) {
+    if(event.detail) {
+      if(!this._isScale) {
+        let direction = event.detail
+        if (direction.up || direction.down) {
+          if(this.innerMode === 'gallery') {
+            this.close = false;
+            await this.closePhotoHScroll();
+            this.onPhotoViewerResult.emit({result: true});
+
+          } else {
+            this.close = true;
+          }
+        }
+      }
+    }
+  }
+
+
   //**********************
   //* Method Definitions *
   //**********************
@@ -145,6 +178,7 @@ export class JeepPhotoviewer {
   //**********************************
   //* Internal Variables Declaration *
   //**********************************
+  _isScale: boolean = false;
   _element: any;
   _window: Window | any;
   _selPos: number;
@@ -265,10 +299,11 @@ export class JeepPhotoviewer {
       <Host>
         {!this.close
         ?
+        <jeep-photo-swipe>
           <div class="photoviewer-container">
             {this.showHScroll
             ?
-              <jeep-photo-hscroll position={this._selPos} imageList={this.innerImageList}
+                <jeep-photo-hscroll position={this._selPos} imageList={this.innerImageList}
                 options={this.innerOptions} mode={this.innerMode}></jeep-photo-hscroll>
             :
               <div class="wrapper">
@@ -278,6 +313,8 @@ export class JeepPhotoviewer {
               </div>
             }
           </div>
+        </jeep-photo-swipe>
+
         :
           null
         }

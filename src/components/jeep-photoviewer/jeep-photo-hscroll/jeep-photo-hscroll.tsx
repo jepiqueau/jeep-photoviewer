@@ -94,8 +94,9 @@ export class JeepPhotoHscroll {
   /**
    * Emitted when successful or when an error occurs or a message has to be sent
    */
-   @Event({eventName:'jeepPhotoHscrollResult'}) onPhotoHscrollResult!: EventEmitter<JeepPhotoViewerResult>;
+  @Event({eventName:'jeepPhotoHscrollResult'}) onPhotoHscrollResult!: EventEmitter<JeepPhotoViewerResult>;
 
+  @Event({eventName: 'jeepPhotoZoom'}) onPhotoZoom!: EventEmitter<{isZoom: boolean}>
 
   @Listen('resize', { target: 'window' })
   async handleWindowResize() {
@@ -151,11 +152,12 @@ export class JeepPhotoHscroll {
 
   @Listen('jeepPhotoZoomOneTap')
   async handleJeepPhotoZoomOneTap() {
+    this.photoZoom = false;
+    this.onPhotoZoom.emit({isZoom: this.photoZoom});
     this._photoZoomOneTap = true;
     this.buttonsVisibility = !this.buttonsVisibility;
-    this.photoZoom = false;
-  }
 
+  }
   //**********************
   //* Method Definitions *
   //**********************
@@ -229,6 +231,7 @@ export class JeepPhotoHscroll {
     this.buttonsVisibility = true;
     this.isFullscreen = false;
     this.photoZoom = false;
+    this.onPhotoZoom.emit({isZoom: this.photoZoom});
     this.share = "visible";
     this.share = this.innerOptions!= null
                         && Object.keys(this.innerOptions).includes("share")
@@ -329,6 +332,7 @@ export class JeepPhotoHscroll {
     this.buttonsVisibility = !this.buttonsVisibility;
     // launch the zoom in out
     this.photoZoom = true;
+    this.onPhotoZoom.emit({isZoom: this.photoZoom});
     return;
   }
   //*************************

@@ -82,3 +82,10 @@ export interface JeepPhotoViewerResult {
    */
   imageIndex?: number;
 }
+export interface IJeepSwipeEvent {
+  up: boolean;
+  down: boolean;
+  left: boolean;
+  right: boolean;
+}
+

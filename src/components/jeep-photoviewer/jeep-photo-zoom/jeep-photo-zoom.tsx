@@ -61,7 +61,6 @@ export class JeepPhotoZoom {
    @Event({eventName:'jeepPhotoZoomOneTap'}) onPhotoZoomOneTap!: EventEmitter<void>;
 
 
-
   //**********************
   //* Method Definitions *
   //**********************
@@ -135,8 +134,6 @@ export class JeepPhotoZoom {
   }
   private async _setPhoto(): Promise<void> {
     this._photoEl = this._element.querySelector('.zoom-item');
-    this._imageEl = this._photoEl.querySelector('.zoom-image');
-
     // Define Listeners
     this._photoEl.addEventListener("touchstart", this._startHandler.bind(this));
     this._photoEl.addEventListener("touchmove", this._moveHandler.bind(this));
@@ -144,7 +141,8 @@ export class JeepPhotoZoom {
     this._photoEl.addEventListener('mousedown', this._startHandler.bind(this));
     this._photoEl.addEventListener('mousemove', this._moveHandler.bind(this));
     this._photoEl.addEventListener('mouseup', this._endHandler.bind(this));
-
+    await this.setImage();
+    this._imageEl = this._photoEl.querySelector('.zoom-image');
     // View Size
     this._view = {left: 0, top: 0, width: this._window.innerWidth,
                   height: this._window.innerHeight};
@@ -162,6 +160,17 @@ export class JeepPhotoZoom {
     this._lastPoint.y = this._imageInView.height / 2;
     return;
   }
+  private async setImage(): Promise<void> {
+    return new Promise((resolve) => {
+      var img = new Image();
+      img.onload = () => {
+        this._photoEl.append(img);
+        resolve();
+      }
+      img.src = this.innerUrl;
+      img.className = 'zoom-image'
+    })
+  }
   private _setHostProperties(scale: number, pan: Point) {
     const transform = `scale(${scale}) translateX(${pan.x}px) translateY(${pan.y}px)`;
     this.el.style.setProperty('--zoom-left',`${this._imageInView.left}px`);
@@ -171,7 +180,7 @@ export class JeepPhotoZoom {
     this.el.style.setProperty('--zoom-transform', `${transform}`)
   }
   private _calculateImageInView(): Rect {
-    let imageRect: Rect = {};
+    let imageRect: Rect = {} as Rect;
     const scale = Math.max(
       this._imageNatural.width  / this._view.width,
       this._imageNatural.height / this._view.height
@@ -254,6 +263,7 @@ export class JeepPhotoZoom {
           this._setHostProperties(this._curZoomScale,this._curPan);
         }
       } else if(this._tapNum === 1) {
+        this._curZoomScale = 1;
         this._handleSingleTap();
         this._tapNum = 0;
         this._tapedTwice = false;
@@ -263,8 +273,8 @@ export class JeepPhotoZoom {
   }
 
   private _handleSingleTap() {
-      this.onPhotoZoomOneTap.emit();
-  }
+    this.onPhotoZoomOneTap.emit();
+ }
 
   private _handleDoubleTap(pt: any) {
     if (this._curZoomScale === 1) {
@@ -290,7 +300,6 @@ export class JeepPhotoZoom {
         <div class="zoom-container">
           <div class="wrapper">
             <div class="zoom-item">
-              <img src={this.innerUrl} class="zoom-image"></img>
             </div>
           </div>
         </div>
@@ -299,3 +308,8 @@ export class JeepPhotoZoom {
   }
 
 }
+
+/*
+              <img src={this.innerUrl} id="zoom-image" class="zoom-image"></img>
+
+*/
