@@ -20,6 +20,7 @@
 | Event                    | Description                                                                 | Type                                 |
 | ------------------------ | --------------------------------------------------------------------------- | ------------------------------------ |
 | `jeepPhotoHscrollResult` | Emitted when successful or when an error occurs or a message has to be sent | `CustomEvent<JeepPhotoViewerResult>` |
+| `jeepPhotoZoom`          |                                                                             | `CustomEvent<{ isZoom: boolean; }>`  |
 
 
 ## Methods

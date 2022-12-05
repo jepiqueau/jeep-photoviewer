@@ -54,6 +54,19 @@ Type: `Promise<void>`
 
 
 
+## Dependencies
+
+### Used by
+
+ - [jeep-photoviewer](..)
+
+### Graph
+```mermaid
+graph TD;
+  jeep-photoviewer --> jeep-photo-swipe
+  style jeep-photo-swipe fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
