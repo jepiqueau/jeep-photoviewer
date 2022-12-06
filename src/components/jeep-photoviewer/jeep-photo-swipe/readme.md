@@ -9,9 +9,9 @@
 
 | Property        | Attribute       | Description                        | Type     | Default |
 | --------------- | --------------- | ---------------------------------- | -------- | ------- |
-| `thresholdX`    | `thresholdx`    | The swipe threshold in x direction | `number` | `30`    |
-| `thresholdY`    | `thresholdy`    | The swipe threshold in y direction | `number` | `30`    |
-| `timeThreshold` | `timethreshold` | The swipe timeThreshold            | `number` | `100`   |
+| `thresholdX`    | `thresholdx`    | The swipe threshold in x direction | `number` | `100`   |
+| `thresholdY`    | `thresholdy`    | The swipe threshold in y direction | `number` | `100`   |
+| `timeThreshold` | `timethreshold` | The swipe timeThreshold            | `number` | `200`   |
 
 
 ## Events
@@ -23,9 +23,9 @@
 
 ## Methods
 
-### `handleTouchEnd(e: TouchEvent) => Promise<void>`
+### `handleMouseDown(e: any) => Promise<void>`
 
-
+handleMouseDown
 
 #### Returns
 
@@ -33,9 +33,29 @@ Type: `Promise<void>`
 
 
 
-### `handleTouchStart(e: TouchEvent) => Promise<void>`
+### `handleMouseUp(e: any) => Promise<void>`
 
-Set the Photo.
+handleMouseEUp
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `handleTouchEnd(e: TouchEvent) => Promise<void>`
+
+handleTouchEnd
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `handleTouchStart(e: any) => Promise<void>`
+
+handleTouchStart
 
 #### Returns
 

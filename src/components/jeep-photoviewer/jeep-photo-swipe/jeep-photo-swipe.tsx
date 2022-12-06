@@ -22,7 +22,7 @@ export class JeepPhotoSwipe{
   @Prop({
     attribute: "timeThreshold",
     reflect: true
-  }) timeThreshold: number = 100;
+  }) timeThreshold: number = 200;
 
   /**
    * The swipe threshold in x direction
@@ -30,7 +30,7 @@ export class JeepPhotoSwipe{
   @Prop({
     attribute: "thresholdX",
     reflect: true
-  }) thresholdX: number = 30;
+  }) thresholdX: number = 100;
 
     /**
    * The swipe threshold in y direction
@@ -38,7 +38,7 @@ export class JeepPhotoSwipe{
      @Prop({
       attribute: "thresholdY",
       reflect: true
-    }) thresholdY: number = 30;
+    }) thresholdY: number = 100;
 
   //*****************************
   //* State Definitions         *
@@ -90,20 +90,25 @@ export class JeepPhotoSwipe{
       return await this._init();
    }
   /**
-   * Set the Photo.
+   * handleTouchStart
    */
   @Method()
-  async handleTouchStart (e: TouchEvent) {
+  async handleTouchStart (e) {
     this._startPoint.x = e.touches[0].clientX; //This is where touchstart coordinates are stored
     this._startPoint.y = e.touches[0].clientY;;
+
     this._time = setInterval(() => { //Let's see how long the swipe lasts.
       this._totalTime += 10;
     }, 10);
   }
-  @Method()
+  /**
+   * handleTouchEnd
+   */
+   @Method()
   async handleTouchEnd(e: TouchEvent) {
     this._endPoint.x = e.changedTouches[0].clientX;
     this._endPoint.y = e.changedTouches[0].clientY;
+
     // Let's stop calculating time and free up resources.
     clearInterval(this._time);
     if (this._totalTime >= this.innerTimeThreshold) {
@@ -112,6 +117,37 @@ export class JeepPhotoSwipe{
     }
     this._totalTime = 0;
   }
+
+  /**
+   * handleMouseDown
+   */
+   @Method()
+   async handleMouseDown (e) {
+    e.preventDefault();
+    this._startPoint.x = e.clientX; //This is where touchstart coordinates are stored
+    this._startPoint.y = e.clientY;;
+
+    this._time = setInterval(() => { //Let's see how long the swipe lasts.
+      this._totalTime += 10;
+    }, 10);
+   }
+   /**
+    * handleMouseEUp
+    */
+    @Method()
+   async handleMouseUp(e) {
+     this._endPoint.x = e.clientX;
+     this._endPoint.y = e.clientY;
+
+     // Let's stop calculating time and free up resources.
+     clearInterval(this._time);
+     if (this._totalTime >= this.innerTimeThreshold) {
+       let res = this._getSwipeDirection(this._startPoint, this._endPoint, this.innerThresholdX, this.innerThresholdY);
+       this.onPhotoSwipe.emit(res);
+     }
+     this._totalTime = 0;
+   }
+
 
   //**********************************
   //* Internal Variables Declaration *
@@ -144,9 +180,9 @@ export class JeepPhotoSwipe{
 
   private async _init(): Promise<void> {
     this._element = this.el.shadowRoot;
-    this.parseTimeThreshold(this.timeThreshold? this.timeThreshold : 100);
-    this.parseThresholdX(this.thresholdX ? this.thresholdX : 30);
-    this.parseThresholdY(this.thresholdY ? this.thresholdY : 30);
+    this.parseTimeThreshold(this.timeThreshold? this.timeThreshold : 200);
+    this.parseThresholdX(this.thresholdX ? this.thresholdX : 100);
+    this.parseThresholdY(this.thresholdY ? this.thresholdY : 100);
     return;
   }
   private _getSwipeDirection = (startPoint, endPoint, thresholdX, thresholdY): IJeepSwipeEvent => {
@@ -163,7 +199,22 @@ export class JeepPhotoSwipe{
 
     return swipeDirection;
   }
-
+/*  private _getTouchPoint(event): Point {
+    let point: Point = {};
+    if(event.changedTouches) {
+        // Touch Event
+        point.x = event.changedTouches[0].clientX;
+        point.y = event.changedTouches[0].clientY;
+        console.log(`Touch Event point: x ${point.x} y ${point.y}`)
+      } else {
+        // Mouse Event
+        point.x = event.clientX;
+        point.y = event.clientY;
+        console.log(`Mouse Event point: x ${point.x} y ${point.y}`)
+      }
+    return point;
+  }
+*/
   //*************************
   //* Rendering JSX Element *
   //*************************
@@ -172,7 +223,8 @@ export class JeepPhotoSwipe{
 
     return (
       <Host>
-      <div class="swipe-container" onTouchStart={(e) => this.handleTouchStart(e)} onTouchEnd={(e) => this.handleTouchEnd(e)}>
+      <div class="swipe-container" onTouchStart={(e) => this.handleTouchStart(e)} onTouchEnd={(e) => this.handleTouchEnd(e)}
+      onMouseDown={(e) => this.handleMouseDown(e)} onMouseUp={(e) => this.handleMouseUp(e)}>
         <slot />
       </div>
       </Host>

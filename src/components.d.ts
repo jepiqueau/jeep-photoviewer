@@ -86,11 +86,22 @@ export namespace Components {
         "surl": string;
     }
     interface JeepPhotoSwipe {
+        /**
+          * handleMouseDown
+         */
+        "handleMouseDown": (e: any) => Promise<void>;
+        /**
+          * handleMouseEUp
+         */
+        "handleMouseUp": (e: any) => Promise<void>;
+        /**
+          * handleTouchEnd
+         */
         "handleTouchEnd": (e: TouchEvent) => Promise<void>;
         /**
-          * Set the Photo.
+          * handleTouchStart
          */
-        "handleTouchStart": (e: TouchEvent) => Promise<void>;
+        "handleTouchStart": (e: any) => Promise<void>;
         /**
           * Method initialize
          */
