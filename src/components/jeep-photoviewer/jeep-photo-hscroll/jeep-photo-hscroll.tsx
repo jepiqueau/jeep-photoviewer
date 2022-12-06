@@ -96,7 +96,15 @@ export class JeepPhotoHscroll {
    */
   @Event({eventName:'jeepPhotoHscrollResult'}) onPhotoHscrollResult!: EventEmitter<JeepPhotoViewerResult>;
 
+  /**
+   * Emitted when the zoom is active or not
+   */
   @Event({eventName: 'jeepPhotoZoom'}) onPhotoZoom!: EventEmitter<{isZoom: boolean}>
+
+  /**
+   * Emitted when swipe gestures in Gallery mode
+   */
+  @Event({eventName:'jeepPhotoHscrollClose'}) onPhotoPhotoHscrollClose!: EventEmitter<void>;
 
   @Listen('resize', { target: 'window' })
   async handleWindowResize() {
@@ -157,6 +165,26 @@ export class JeepPhotoHscroll {
     this._photoZoomOneTap = true;
     this.buttonsVisibility = !this.buttonsVisibility;
 
+  }
+  @Listen('jeepPhotoSwipe')
+  async handleJeepPhotoSwipe(event: CustomEvent) {
+    if(event.detail) {
+      if(!this.photoZoom) {
+        let direction = event.detail
+        if (direction.up || direction.down) {
+
+          if(this.isFullscreen) {
+            await this._fullscreenExit();
+          }
+          if(this.innerMode !== 'gallery') {
+            this.currentIndex = this.innerMode === 'slider' ? this._getCurrentPhotoIndex() : this.innerPosition;
+            this.onPhotoHscrollResult.emit({result: true, imageIndex: this.currentIndex});
+          } else {
+            this.onPhotoPhotoHscrollClose.emit();
+          }
+        }
+      }
+    }
   }
   //**********************
   //* Method Definitions *
@@ -343,17 +371,19 @@ export class JeepPhotoHscroll {
     let toRenderImg: any[] = [];
     if(this.innerImageList != null && this.innerImageList.length > 0) {
       const classTitle = this.titleShow ? "carousel-title" : "carousel-title hidden";
+
       if(this.innerMode === "gallery" || this.innerMode === "slider") {
-        for (var i:number = 0; i<this.innerImageList.length; i++) {
+          for (var i:number = 0; i<this.innerImageList.length; i++) {
           toRenderImg = [...toRenderImg,
-            <div class="carousel-item" onClick={() => this._handleClick()}>
-              <img src={this.innerImageList[i].url}
-                  alt={this.innerImageList[i].title}
-                  class="carousel-image"></img>
-                  <p class={classTitle}>{this.innerImageList[i].title}</p>
-            </div>
+              <div class="carousel-item" onClick={() => this._handleClick()}>
+                <img src={this.innerImageList[i].url}
+                    alt={this.innerImageList[i].title}
+                    class="carousel-image"></img>
+                    <p class={classTitle}>{this.innerImageList[i].title}</p>
+              </div>
           ]
         }
+
       }
       if(this.innerMode === "one") {
         toRenderImg = [...toRenderImg,
@@ -392,9 +422,12 @@ export class JeepPhotoHscroll {
               </jeep-photo-zoom>
             :
               <div>
+                  <jeep-photo-swipe>
                 <div class="carousel hidden">
-                  {toRenderImg}
+                    {toRenderImg}
                 </div>
+                </jeep-photo-swipe>
+
                 {toRender}
                 {toRenderShare}
               </div>

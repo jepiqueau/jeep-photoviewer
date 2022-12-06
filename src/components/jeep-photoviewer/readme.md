@@ -116,19 +116,18 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [jeep-photo-swipe](jeep-photo-swipe)
 - [jeep-photo-hscroll](jeep-photo-hscroll)
 - [jeep-photo-buttons](jeep-photo-buttons)
 
 ### Graph
 ```mermaid
 graph TD;
-  jeep-photoviewer --> jeep-photo-swipe
   jeep-photoviewer --> jeep-photo-hscroll
   jeep-photoviewer --> jeep-photo-buttons
   jeep-photo-hscroll --> jeep-photo-buttons
   jeep-photo-hscroll --> jeep-photo-share
   jeep-photo-hscroll --> jeep-photo-zoom
+  jeep-photo-hscroll --> jeep-photo-swipe
   style jeep-photoviewer fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

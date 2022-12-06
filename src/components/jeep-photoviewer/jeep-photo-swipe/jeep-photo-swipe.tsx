@@ -74,7 +74,7 @@ export class JeepPhotoSwipe{
   /**
    * Emitted when the user is making a swipe gesture
    */
-   @Event({eventName:'jeepSwipeEvent'}) onPhotoSwipe!: EventEmitter<IJeepSwipeEvent>;
+   @Event({eventName:'jeepPhotoSwipe'}) onPhotoSwipe!: EventEmitter<IJeepSwipeEvent>;
 
 
 
@@ -96,7 +96,6 @@ export class JeepPhotoSwipe{
   async handleTouchStart (e) {
     this._startPoint.x = e.touches[0].clientX; //This is where touchstart coordinates are stored
     this._startPoint.y = e.touches[0].clientY;;
-
     this._time = setInterval(() => { //Let's see how long the swipe lasts.
       this._totalTime += 10;
     }, 10);
@@ -112,9 +111,9 @@ export class JeepPhotoSwipe{
     // Let's stop calculating time and free up resources.
     clearInterval(this._time);
     if (this._totalTime >= this.innerTimeThreshold) {
-      let res = this._getSwipeDirection(this._startPoint, this._endPoint, this.innerThresholdX, this.innerThresholdY);
-      this.onPhotoSwipe.emit(res);
-    }
+      let res: IJeepSwipeEvent = this._getSwipeDirection(this._startPoint, this._endPoint, this.innerThresholdX, this.innerThresholdY);
+      this.onPhotoSwipe.emit({up:res.up, down: res.down, left: res.left, right: res.right});
+   }
     this._totalTime = 0;
   }
 
@@ -142,8 +141,8 @@ export class JeepPhotoSwipe{
      // Let's stop calculating time and free up resources.
      clearInterval(this._time);
      if (this._totalTime >= this.innerTimeThreshold) {
-       let res = this._getSwipeDirection(this._startPoint, this._endPoint, this.innerThresholdX, this.innerThresholdY);
-       this.onPhotoSwipe.emit(res);
+       let res: IJeepSwipeEvent = this._getSwipeDirection(this._startPoint, this._endPoint, this.innerThresholdX, this.innerThresholdY);
+       this.onPhotoSwipe.emit({up:res.up, down: res.down, left: res.left, right: res.right});
      }
      this._totalTime = 0;
    }
@@ -170,10 +169,7 @@ export class JeepPhotoSwipe{
     await this.init();
   }
 
-/*  async componentDidLoad() {
-    await this.setPhoto();
-  }
-*/
+
   //******************************
   //* Private Method Definitions *
   //******************************
@@ -199,22 +195,7 @@ export class JeepPhotoSwipe{
 
     return swipeDirection;
   }
-/*  private _getTouchPoint(event): Point {
-    let point: Point = {};
-    if(event.changedTouches) {
-        // Touch Event
-        point.x = event.changedTouches[0].clientX;
-        point.y = event.changedTouches[0].clientY;
-        console.log(`Touch Event point: x ${point.x} y ${point.y}`)
-      } else {
-        // Mouse Event
-        point.x = event.clientX;
-        point.y = event.clientY;
-        console.log(`Mouse Event point: x ${point.x} y ${point.y}`)
-      }
-    return point;
-  }
-*/
+
   //*************************
   //* Rendering JSX Element *
   //*************************
@@ -224,7 +205,7 @@ export class JeepPhotoSwipe{
     return (
       <Host>
       <div class="swipe-container" onTouchStart={(e) => this.handleTouchStart(e)} onTouchEnd={(e) => this.handleTouchEnd(e)}
-      onMouseDown={(e) => this.handleMouseDown(e)} onMouseUp={(e) => this.handleMouseUp(e)}>
+        onMouseDown={(e) => this.handleMouseDown(e)} onMouseUp={(e) => this.handleMouseUp(e)}>
         <slot />
       </div>
       </Host>

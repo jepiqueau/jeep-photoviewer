@@ -19,8 +19,9 @@
 
 | Event                    | Description                                                                 | Type                                 |
 | ------------------------ | --------------------------------------------------------------------------- | ------------------------------------ |
+| `jeepPhotoHscrollClose`  | Emitted when swipe gestures in Gallery mode                                 | `CustomEvent<void>`                  |
 | `jeepPhotoHscrollResult` | Emitted when successful or when an error occurs or a message has to be sent | `CustomEvent<JeepPhotoViewerResult>` |
-| `jeepPhotoZoom`          |                                                                             | `CustomEvent<{ isZoom: boolean; }>`  |
+| `jeepPhotoZoom`          | Emitted when the zoom is active or not                                      | `CustomEvent<{ isZoom: boolean; }>`  |
 
 
 ## Methods
@@ -57,6 +58,7 @@ Type: `Promise<void>`
 - [jeep-photo-buttons](../jeep-photo-buttons)
 - [jeep-photo-share](../jeep-photo-share)
 - [jeep-photo-zoom](../jeep-photo-zoom)
+- [jeep-photo-swipe](../jeep-photo-swipe)
 
 ### Graph
 ```mermaid
@@ -64,6 +66,7 @@ graph TD;
   jeep-photo-hscroll --> jeep-photo-buttons
   jeep-photo-hscroll --> jeep-photo-share
   jeep-photo-hscroll --> jeep-photo-zoom
+  jeep-photo-hscroll --> jeep-photo-swipe
   jeep-photoviewer --> jeep-photo-hscroll
   style jeep-photo-hscroll fill:#f9f,stroke:#333,stroke-width:4px
 ```

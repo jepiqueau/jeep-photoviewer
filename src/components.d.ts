@@ -276,9 +276,16 @@ declare namespace LocalJSX {
          */
         "mode"?: string;
         /**
+          * Emitted when swipe gestures in Gallery mode
+         */
+        "onJeepPhotoHscrollClose"?: (event: JeepPhotoHscrollCustomEvent<void>) => void;
+        /**
           * Emitted when successful or when an error occurs or a message has to be sent
          */
         "onJeepPhotoHscrollResult"?: (event: JeepPhotoHscrollCustomEvent<JeepPhotoViewerResult>) => void;
+        /**
+          * Emitted when the zoom is active or not
+         */
         "onJeepPhotoZoom"?: (event: JeepPhotoHscrollCustomEvent<{isZoom: boolean}>) => void;
         /**
           * The photoviewer options
@@ -311,7 +318,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the user is making a swipe gesture
          */
-        "onJeepSwipeEvent"?: (event: JeepPhotoSwipeCustomEvent<IJeepSwipeEvent>) => void;
+        "onJeepPhotoSwipe"?: (event: JeepPhotoSwipeCustomEvent<IJeepSwipeEvent>) => void;
         /**
           * The swipe threshold in x direction
          */

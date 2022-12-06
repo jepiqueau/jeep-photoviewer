@@ -18,7 +18,7 @@
 
 | Event            | Description                                     | Type                           |
 | ---------------- | ----------------------------------------------- | ------------------------------ |
-| `jeepSwipeEvent` | Emitted when the user is making a swipe gesture | `CustomEvent<IJeepSwipeEvent>` |
+| `jeepPhotoSwipe` | Emitted when the user is making a swipe gesture | `CustomEvent<IJeepSwipeEvent>` |
 
 
 ## Methods
@@ -78,12 +78,12 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [jeep-photoviewer](..)
+ - [jeep-photo-hscroll](../jeep-photo-hscroll)
 
 ### Graph
 ```mermaid
 graph TD;
-  jeep-photoviewer --> jeep-photo-swipe
+  jeep-photo-hscroll --> jeep-photo-swipe
   style jeep-photo-swipe fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
