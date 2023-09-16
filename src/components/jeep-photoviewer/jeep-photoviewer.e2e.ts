@@ -13,7 +13,7 @@ describe('jeep-photoviewer', () => {
     const page = await newE2EPage();
 
     await page.setContent('<jeep-photoviewer></jeep-photoviewer>');
-    const component = await page.find('jeep-photoviewer');
+//    const component = await page.find('jeep-photoviewer');
     const container = await page.find('jeep-photoviewer >>> div');
     expect(container.className).toEqual(`photoviewer-container`);
     const wrapper = await container.find('div')

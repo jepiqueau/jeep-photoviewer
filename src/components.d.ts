@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { IJeepSwipeEvent, Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
+export { IJeepSwipeEvent, Image, JeepPhotoViewerResult, ViewerOptions } from "./interfaces/interfaces";
 export namespace Components {
     interface JeepPhotoButtons {
         /**

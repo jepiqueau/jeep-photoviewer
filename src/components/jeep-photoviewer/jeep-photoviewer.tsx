@@ -1,5 +1,5 @@
 import { Component, Prop, h, State, Element, Watch, Method, Host,
-         Listen, Event, EventEmitter } from '@stencil/core';
+  Listen, Event, EventEmitter } from '@stencil/core';
 import { Image, ViewerOptions, JeepPhotoViewerResult } from '../../interfaces/interfaces';
 import { placeholderUrl } from '../../utils/svg-utils';
 
