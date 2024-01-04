@@ -41,6 +41,12 @@ Type: `Promise<void>`
 
 Set the Navigation Visibility (visible/hidden)
 
+#### Parameters
+
+| Name    | Type      | Description |
+| ------- | --------- | ----------- |
+| `state` | `boolean` |             |
+
 #### Returns
 
 Type: `Promise<void>`

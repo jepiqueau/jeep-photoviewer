@@ -2,6 +2,7 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'jeep-photoviewer',
+  sourceMap: true,
   outputTargets: [
     {
       type: 'dist',

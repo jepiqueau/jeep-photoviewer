@@ -187,37 +187,108 @@ export interface JeepPhotoviewerCustomEvent<T> extends CustomEvent<T> {
     target: HTMLJeepPhotoviewerElement;
 }
 declare global {
+    interface HTMLJeepPhotoButtonsElementEventMap {
+        "jeepPhotoButtonsClose": {component: string};
+        "jeepPhotoRequestFullscreen": void;
+        "jeepPhotoRequestMinimize": void;
+        "jeepPhotoButtonsShare": void;
+    }
     interface HTMLJeepPhotoButtonsElement extends Components.JeepPhotoButtons, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoButtonsElementEventMap>(type: K, listener: (this: HTMLJeepPhotoButtonsElement, ev: JeepPhotoButtonsCustomEvent<HTMLJeepPhotoButtonsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoButtonsElementEventMap>(type: K, listener: (this: HTMLJeepPhotoButtonsElement, ev: JeepPhotoButtonsCustomEvent<HTMLJeepPhotoButtonsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoButtonsElement: {
         prototype: HTMLJeepPhotoButtonsElement;
         new (): HTMLJeepPhotoButtonsElement;
     };
+    interface HTMLJeepPhotoHscrollElementEventMap {
+        "jeepPhotoHscrollResult": JeepPhotoViewerResult;
+        "jeepPhotoZoom": {isZoom: boolean};
+        "jeepPhotoHscrollClose": void;
+    }
     interface HTMLJeepPhotoHscrollElement extends Components.JeepPhotoHscroll, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoHscrollElementEventMap>(type: K, listener: (this: HTMLJeepPhotoHscrollElement, ev: JeepPhotoHscrollCustomEvent<HTMLJeepPhotoHscrollElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoHscrollElementEventMap>(type: K, listener: (this: HTMLJeepPhotoHscrollElement, ev: JeepPhotoHscrollCustomEvent<HTMLJeepPhotoHscrollElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoHscrollElement: {
         prototype: HTMLJeepPhotoHscrollElement;
         new (): HTMLJeepPhotoHscrollElement;
     };
+    interface HTMLJeepPhotoShareElementEventMap {
+        "jeepPhotoShareCompleted": JeepPhotoViewerResult;
+    }
     interface HTMLJeepPhotoShareElement extends Components.JeepPhotoShare, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoShareElementEventMap>(type: K, listener: (this: HTMLJeepPhotoShareElement, ev: JeepPhotoShareCustomEvent<HTMLJeepPhotoShareElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoShareElementEventMap>(type: K, listener: (this: HTMLJeepPhotoShareElement, ev: JeepPhotoShareCustomEvent<HTMLJeepPhotoShareElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoShareElement: {
         prototype: HTMLJeepPhotoShareElement;
         new (): HTMLJeepPhotoShareElement;
     };
+    interface HTMLJeepPhotoSwipeElementEventMap {
+        "jeepPhotoSwipe": IJeepSwipeEvent;
+    }
     interface HTMLJeepPhotoSwipeElement extends Components.JeepPhotoSwipe, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoSwipeElementEventMap>(type: K, listener: (this: HTMLJeepPhotoSwipeElement, ev: JeepPhotoSwipeCustomEvent<HTMLJeepPhotoSwipeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoSwipeElementEventMap>(type: K, listener: (this: HTMLJeepPhotoSwipeElement, ev: JeepPhotoSwipeCustomEvent<HTMLJeepPhotoSwipeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoSwipeElement: {
         prototype: HTMLJeepPhotoSwipeElement;
         new (): HTMLJeepPhotoSwipeElement;
     };
+    interface HTMLJeepPhotoZoomElementEventMap {
+        "jeepPhotoZoomOneTap": void;
+    }
     interface HTMLJeepPhotoZoomElement extends Components.JeepPhotoZoom, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoZoomElementEventMap>(type: K, listener: (this: HTMLJeepPhotoZoomElement, ev: JeepPhotoZoomCustomEvent<HTMLJeepPhotoZoomElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoZoomElementEventMap>(type: K, listener: (this: HTMLJeepPhotoZoomElement, ev: JeepPhotoZoomCustomEvent<HTMLJeepPhotoZoomElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoZoomElement: {
         prototype: HTMLJeepPhotoZoomElement;
         new (): HTMLJeepPhotoZoomElement;
     };
+    interface HTMLJeepPhotoviewerElementEventMap {
+        "jeepPhotoViewerResult": JeepPhotoViewerResult;
+    }
     interface HTMLJeepPhotoviewerElement extends Components.JeepPhotoviewer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLJeepPhotoviewerElementEventMap>(type: K, listener: (this: HTMLJeepPhotoviewerElement, ev: JeepPhotoviewerCustomEvent<HTMLJeepPhotoviewerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLJeepPhotoviewerElementEventMap>(type: K, listener: (this: HTMLJeepPhotoviewerElement, ev: JeepPhotoviewerCustomEvent<HTMLJeepPhotoviewerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLJeepPhotoviewerElement: {
         prototype: HTMLJeepPhotoviewerElement;

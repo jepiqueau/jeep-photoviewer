@@ -27,6 +27,12 @@
 
 handleMouseDown
 
+#### Parameters
+
+| Name | Type  | Description |
+| ---- | ----- | ----------- |
+| `e`  | `any` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -36,6 +42,12 @@ Type: `Promise<void>`
 ### `handleMouseUp(e: any) => Promise<void>`
 
 handleMouseEUp
+
+#### Parameters
+
+| Name | Type  | Description |
+| ---- | ----- | ----------- |
+| `e`  | `any` |             |
 
 #### Returns
 
@@ -47,6 +59,12 @@ Type: `Promise<void>`
 
 handleTouchEnd
 
+#### Parameters
+
+| Name | Type         | Description |
+| ---- | ------------ | ----------- |
+| `e`  | `TouchEvent` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -56,6 +74,12 @@ Type: `Promise<void>`
 ### `handleTouchStart(e: any) => Promise<void>`
 
 handleTouchStart
+
+#### Parameters
+
+| Name | Type  | Description |
+| ---- | ----- | ----------- |
+| `e`  | `any` |             |
 
 #### Returns
 
