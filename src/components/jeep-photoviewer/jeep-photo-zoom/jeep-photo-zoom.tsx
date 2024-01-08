@@ -87,7 +87,6 @@ export class JeepPhotoZoom {
   _window: Window | any;
   _photoEl: HTMLDivElement;
   _imageEl: HTMLImageElement;
-  _tapedTwice: boolean = false;
   _tapedTime: any = null;
   _tapNum: number = 0;
   _timerStart: boolean = false;
@@ -99,12 +98,16 @@ export class JeepPhotoZoom {
   _curPan: Point = {};
   _startPoint: Point = {};
   _movePoint: Point = {};
-  _centerPoint: Point = {};
   _lastPoint: Point = {};
-  _doubleTouch: Boolean = false;
+  _toggleDoubleTouch: Boolean = false;
   _touchStart = false;
   _touchMove = false;
-
+  _touchWheel = false;
+  _touchStartTime = 0;
+  _waiTime = 500;
+  _initialDistance: number = null;
+  _pinchPoint: Point = {};
+  _WHEEL_SCALE_SPEEDUP = 2
 
   //*******************************
   //* Component Lifecycle Methods *
@@ -141,6 +144,7 @@ export class JeepPhotoZoom {
     this._photoEl.addEventListener('mousedown', this._startHandler.bind(this));
     this._photoEl.addEventListener('mousemove', this._moveHandler.bind(this));
     this._photoEl.addEventListener('mouseup', this._endHandler.bind(this));
+    this._photoEl.addEventListener('wheel', this._wheelHandler.bind(this));
     await this.setImage();
     this._imageEl = this._photoEl.querySelector('.zoom-image');
     // View Size
@@ -214,65 +218,96 @@ export class JeepPhotoZoom {
   //* Handling Gesture Events    *
   //******************************
 
-  private _startHandler(event) {
-    event.preventDefault();
-	  this._startPoint = this._getTouchPoint(event);
-    if(!this._tapedTwice) {
-      this._tapedTwice = true;
-      this._tapedTime = setTimeout( () => {
-        this._touchStart = true;
-        this._tapNum = 1;
-        this._endHandler();
-      }, 300 );
-		  return false;
-    }
-    //action on double tap goes below
-    this._tapNum = 2;
-    this._lastPoint = {x: this._startPoint.x, y: this._startPoint.y};
+  private _wheelHandler(event) {
+  // Detect pinch gestures for zooming
+    if (event.ctrlKey) {
+      event.preventDefault();
 
-	  clearTimeout(this._tapedTime);
-	  this._touchStart = true;
+      if (!this._initialDistance) {
+        this._initialDistance = event.deltaY;
+        this._pinchPoint = { x: event.clientX, y: event.clientY };
+        this._touchWheel = true;
+      } else {
+				const factor = event.deltaY <= 0 ?
+					1 - this._WHEEL_SCALE_SPEEDUP * event.deltaY / 100 :
+					1 / (1 + this._WHEEL_SCALE_SPEEDUP * event.deltaY / 100);
+        this._curZoomScale = this._curZoomScale * factor
+
+        // Ensure the zoom scale is within the specified range [1, maxScale]
+        this._curZoomScale = Math.min(this._maxZoomScale, Math.max(1, this._curZoomScale));
+
+        this._curPan.x = (this._view.width / 2 - this._pinchPoint.x) * (this._curZoomScale - 1) / this._curZoomScale
+        this._curPan.y = (this._view.height / 2 - this._pinchPoint.y) * (this._curZoomScale - 1) / this._curZoomScale
+        this._setHostProperties(this._curZoomScale,this._curPan);
+        if(this._curZoomScale <=1 ) {
+          this._touchWheel = false;
+          this._initialDistance = null;
+        }
+      }
+    }
+  }
+
+  private _startHandler(event) {
+
+	  this._startPoint = this._getTouchPoint(event);
+    this._touchStartTime = new Date().getTime();
+
+    this._tapNum++;
+    this._touchStart = true;
+    this._touchMove = false;
+
+    this._tapedTime = setTimeout( () => {
+      if (this._tapNum === 1 && ! this._touchWheel) {
+        if(!this._toggleDoubleTouch) {
+          this._handleSingleTap();
+        }
+      }
+      this._tapNum = 0;
+     }, this._waiTime );
+    // Prevent the default action for the touchstart event
+    event.preventDefault();
   }
 
   private _moveHandler(event) {
-    if( this._tapedTwice ) {
-    this._movePoint = this._getTouchPoint(event);
-    this._touchMove = true;
-    const deltaPoint = {x: this._lastPoint.x - this._movePoint.x ,
-                        y: this._lastPoint.y - this._movePoint.y}
-    this._curPan.x += deltaPoint.x * (this._maxZoomScale - 1) / this._maxZoomScale;
-    this._curPan.y += deltaPoint.y * (this._maxZoomScale - 1) / this._maxZoomScale;
-    this._lastPoint = this._movePoint;
-    this._setHostProperties(this._maxZoomScale,this._curPan);
-    this._touchStart = false;
+    if(this._toggleDoubleTouch || this._touchWheel) {
+      if(this._touchWheel) this._initialDistance = null;
+      this._movePoint = this._getTouchPoint(event);
+      this._touchMove = true;
+      const deltaPoint = {x: this._lastPoint.x - this._movePoint.x ,
+                          y: this._lastPoint.y - this._movePoint.y}
+      this._curPan.x += deltaPoint.x * (this._maxZoomScale - 1) / this._maxZoomScale;
+      this._curPan.y += deltaPoint.y * (this._maxZoomScale - 1) / this._maxZoomScale;
+      this._lastPoint = this._movePoint;
+      this._setHostProperties(this._maxZoomScale,this._curPan);
     }
   }
 
   private _endHandler() {
-    if(this._touchStart && this._tapNum > 0) {
-      if(this._tapNum === 2) {
-        if(!this._touchMove) {
-         this._handleDoubleTap(this._startPoint)
-        } else {
-          this._tapNum = 0;
-          this._tapedTwice = false;
-          this._touchStart = false;
-          this._touchMove = false
-          this._curZoomScale = 1;
-          this._curPan = {x: 0, y: 0};
-          this._setHostProperties(this._curZoomScale,this._curPan);
-        }
-      } else if(this._tapNum === 1) {
-        this._curZoomScale = 1;
-        this._handleSingleTap();
-        this._tapNum = 0;
-        this._tapedTwice = false;
-        this._touchStart = false;
+    const touchEndTime = new Date().getTime();
+    const touchDuration = touchEndTime - this._touchStartTime;
+    if(this._tapNum === 2 && touchDuration < this._waiTime) {
+      this._lastPoint = {x: this._startPoint.x, y: this._startPoint.y};
+      clearTimeout(this._tapedTime);
+      this._handleDoubleTap(this._startPoint)
+      if(this._touchWheel) {
+        this._touchWheel = false;
+        this._initialDistance = null;
+      } else {
+        this._toggleDoubleTouch = !this._toggleDoubleTouch;
       }
-   }
+
+      this._tapNum = 0;
+    }
+    this._touchStart = false;
+    this._touchMove = false;
+
   }
 
   private _handleSingleTap() {
+    this._curZoomScale = 1;
+
+    this._curPan = {x: 0, y: 0};
+    this._setHostProperties(this._curZoomScale,this._curPan);
     this.onPhotoZoomOneTap.emit();
  }
 

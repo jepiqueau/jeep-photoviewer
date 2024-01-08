@@ -210,6 +210,7 @@ export class JeepPhotoHscroll {
   //**********************************
   _element: any;
   _window: Window | any;
+  _hsContEl: HTMLDivElement;
   _carouselEl: HTMLDivElement;
   _tapped: boolean = false;
   _tappedTime: any = null;
@@ -275,6 +276,8 @@ export class JeepPhotoHscroll {
     return;
   }
   private async _setCarousel(): Promise<void> {
+    this._hsContEl = this._element.querySelector(`.hscroll-container`);
+    this._hsContEl.addEventListener('wheel', this._wheelHandler.bind(this));
     this._carouselEl = this._element.querySelector(`.carousel`);
     await this._scrollToPosition(this.currentIndex);
     this._currentPosition = this.currentIndex * this._window.innerWidth;
@@ -300,7 +303,12 @@ export class JeepPhotoHscroll {
     }
     return;
   }
-
+  private _wheelHandler(event) {
+    // Prevent pinch gestures for zooming
+      if (event.ctrlKey) {
+        event.preventDefault();
+      }
+  }
   private async _scrollToPosition(index: number): Promise<void>  {
       this._currentPosition = index * this._window.innerWidth;
       if(this._carouselEl) this._carouselEl.scrollTo(this._currentPosition,0);
