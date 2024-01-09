@@ -239,9 +239,12 @@ export class JeepPhotoZoom {
         this._curPan.x = (this._view.width / 2 - this._pinchPoint.x) * (this._curZoomScale - 1) / this._curZoomScale
         this._curPan.y = (this._view.height / 2 - this._pinchPoint.y) * (this._curZoomScale - 1) / this._curZoomScale
         this._setHostProperties(this._curZoomScale,this._curPan);
-        if(this._curZoomScale <=1 ) {
+        if(this._curZoomScale < 1.005 ) {
           this._touchWheel = false;
           this._initialDistance = null;
+          this._curZoomScale = 1;
+          this._curPan = {x: 0, y: 0};
+          this._setHostProperties(this._curZoomScale,this._curPan);
         }
       }
     }
@@ -251,11 +254,10 @@ export class JeepPhotoZoom {
 
 	  this._startPoint = this._getTouchPoint(event);
     this._touchStartTime = new Date().getTime();
-
+    if(this._curZoomScale === 1.0) this._touchWheel = false;
     this._tapNum++;
     this._touchStart = true;
     this._touchMove = false;
-
     this._tapedTime = setTimeout( () => {
       if (this._tapNum === 1 && ! this._touchWheel) {
         if(!this._toggleDoubleTouch) {
